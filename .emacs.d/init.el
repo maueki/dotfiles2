@@ -264,3 +264,13 @@ prefer for `sh-mode'.  It is automatically added to
 (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2))) ;; indent 2 spaces.
 
 (require 'guess-offset)
+
+(add-hook
+ 'go-mode-hook
+ '(lambda ()
+    ;; Imenu & Speedbar
+    (setq imenu-generic-expression
+          '(("type" "^type *\\([^ \t\n\r\f]*\\)" 1)
+            ("func" "^func *\\(.*\\) {" 1)))
+    (imenu-add-to-menubar "Index")))
+
