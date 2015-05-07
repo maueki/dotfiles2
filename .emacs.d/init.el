@@ -116,11 +116,11 @@
 (require 'egg)
 
 ;; redo+.el
-;(require 'redo+)
-;(global-set-key (kbd "C-M-_") 'redo)
-;(setq undo-no-redo t) ; 過去のundoがredoされないようにする
-;(setq undo-limit 600000)
-;(setq undo-strong-limit 900000)
+(require 'redo+)
+(global-set-key (kbd "C-M-_") 'redo)
+(setq undo-no-redo t) ; 過去のundoがredoされないようにする
+(setq undo-limit 600000)
+(setq undo-strong-limit 900000)
 
 ;; recentf
 ;; 最近のファイルの10000個を保存する
