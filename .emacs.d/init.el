@@ -1,28 +1,49 @@
-;;; -*- Emacs-Lisp -*-
-;;; -*- coding: utf-8 -*-
+; -*- coding: utf-8 -*-
+
+(when load-file-name
+  (setq user-emacs-directory (file-name-directory load-file-name)))
+
+(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(el-get-bundle helm)
+(el-get-bundle helm-ls-git)
+(el-get-bundle grep-a-lot)
+(el-get-bundle auto-complete)
+(el-get-bundle auto-complete-clang-async)
+(el-get-bundle init-loader)
+(el-get-bundle web-mode)
+(el-get-bundle guess-offset)
+(el-get-bundle magit)
+(el-get-bundle elixir-mode)
+(el-get-bundle qml-mode)
+(el-get-bundle elixir-mix)
+(el-get-bundle adoc-mode)
+(el-get-bundle anzu)
+(el-get-bundle auto-highlight-symbol)
+(el-get-bundle pkg-info)
 
 (setq custom-file "~/.emacs.d/site-lisp/custom.el")
 (if (file-exists-p (expand-file-name "~/.emacs.d/site-lisp/custom.el"))
     (load (expand-file-name custom-file) t nil nil))
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
-
-;; for emacs24.4
+; for emacs24.4
 (if (fboundp 'package--ac-desc-version)
     (fset 'package-desc-vers 'package--ac-desc-version))
 
-(require 'melpa)
-
 (setq load-path
       (append
+       load-path
        (list
-       (expand-file-name "~/.emacs.d/site-lisp/")
-       (expand-file-name "~/.emacs.d/local/")
-       )
-       load-path))
+        (expand-file-name "~/.emacs.d/site-lisp/")
+        (expand-file-name "~/.emacs.d/site-lisp/magit/lisp")
+        (expand-file-name "~/.emacs.d/local/")
+       )))
 
 ; open cheat sheet
 (global-set-key [f12] '(lambda () (interactive) (browse-url "http://qiita.com/maueki/private/32b604b58578a354b287")))
