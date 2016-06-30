@@ -21,3 +21,4 @@
 (el-get-bundle auto-highlight-symbol)
 (el-get-bundle pkg-info)
 (el-get-bundle elscreen)
+(el-get-bundle yasnippet)
