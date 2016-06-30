@@ -1,0 +1,12 @@
+
+*~
+*.elc
+.emacs.d/inits/[0-9][0-9]_*.el
+.emacs.d/history
+.emacs.d/site-lisp/elscreen
+.emacs.d/elpa/archives
+.emacs.d/url
+.emacs.d/el-get
+.zsh/zaw
+*#
+
