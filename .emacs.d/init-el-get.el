@@ -22,3 +22,4 @@
 (el-get-bundle pkg-info)
 (el-get-bundle elscreen)
 (el-get-bundle yasnippet)
+(el-get-bundle puml-mode)
