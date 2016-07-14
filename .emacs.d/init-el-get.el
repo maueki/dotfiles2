@@ -23,3 +23,5 @@
 (el-get-bundle elscreen)
 (el-get-bundle yasnippet)
 (el-get-bundle puml-mode)
+(el-get-bundle redo+)
+(el-get-bundle recentf-ext)

@@ -86,9 +86,6 @@
 ;(require 'grep-edit)
 (global-set-key [f2] 'rgrep)
 
-;; egg
-(require 'egg)
-
 ;; redo+.el
 (require 'redo+)
 (global-set-key (kbd "C-M-_") 'redo)
@@ -134,9 +131,6 @@
 ;;; ツールバーを消す
 (tool-bar-mode -1)
 
-;; ipa
-(require 'ipa)
-
 ;;; GDB 関連
 ;;; 有用なバッファを開くモード
 (setq gdb-many-windows t)
@@ -176,10 +170,8 @@ prefer for `sh-mode'.  It is automatically added to
 (global-set-key (kbd "C-M-c") 'clang-format-buffer)
 
 (require 'grep-a-lot)
-(grep-a-lot-setup-keys)
 
 (global-anzu-mode +1)
 
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
-
