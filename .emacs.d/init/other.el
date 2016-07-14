@@ -16,3 +16,5 @@
 (add-to-list 'auto-mode-alist '("\\.pu$" . puml-mode))
 (require 'puml-mode)
 
+; basic_setting.el にも書いてあるけどここじゃないと有効にならない...
+(savehist-mode 1)
