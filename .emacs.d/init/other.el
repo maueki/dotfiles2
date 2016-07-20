@@ -5,7 +5,9 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (require 'elixir-mode)
+
 (require 'qml-mode)
+(add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
 
 (require 'adoc-mode)
 
@@ -15,6 +17,3 @@
 
 (add-to-list 'auto-mode-alist '("\\.pu$" . puml-mode))
 (require 'puml-mode)
-
-; basic_setting.el にも書いてあるけどここじゃないと有効にならない...
-(savehist-mode 1)
