@@ -25,3 +25,4 @@
 (el-get-bundle puml-mode)
 (el-get-bundle redo+)
 (el-get-bundle recentf-ext)
+(el-get-bundle emmet-mode)
