@@ -43,7 +43,7 @@
 
 (keyboard-translate ?\C-h ?\C-?)
 
-;(require 'migemo)
+(require 'migemo)
 ;(load "migemo")
 
 ;C-xjでSKKが起動しないようにする
