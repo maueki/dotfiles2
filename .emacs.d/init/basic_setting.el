@@ -13,6 +13,7 @@
         (expand-file-name "~/.emacs.d/site-lisp/")
         (expand-file-name "~/.emacs.d/site-lisp/magit/lisp")
         (expand-file-name "~/.emacs.d/local/")
+        "/usr/local/share/emacs/site-lisp/rtags"
        )))
 
 ; open cheat sheet
