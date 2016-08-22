@@ -7,6 +7,7 @@
 (global-set-key (kbd "C-x b") 'helm-for-files)
 (global-set-key (kbd "C-x I") 'helm-imenu)
 (global-set-key (kbd "C-x r l") 'helm-bookmarks)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 (setq helm-for-files-preferred-list
       '(helm-source-buffers-list
