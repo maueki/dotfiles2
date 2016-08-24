@@ -93,10 +93,6 @@
 ;; ediff関連のバッファを１つのフレームにまとめる
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-; for grep-edit
-;(require 'grep-edit)
-(global-set-key [f2] 'rgrep)
-
 ;; redo+.el
 (require 'redo+)
 (global-set-key (kbd "C-M-_") 'redo)
@@ -179,8 +175,6 @@ prefer for `sh-mode'.  It is automatically added to
 ;; clang format
 (load "~/.emacs.d/site-lisp/clang-format.el")
 (global-set-key (kbd "C-M-c") 'clang-format-buffer)
-
-(require 'grep-a-lot)
 
 (global-anzu-mode +1)
 
