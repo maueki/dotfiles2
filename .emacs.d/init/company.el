@@ -3,7 +3,6 @@
 (require 'irony)
 
 ; for company-mode
-(semantic-mode 1)
 (when (locate-library "company")
   (global-company-mode 1)
   (global-set-key (kbd "C-M-i") 'company-complete)
