@@ -3,6 +3,9 @@
 (require 'helm)
 (require 'helm-ls-git)
 
+(when (require 'migemo nil 'noerror)
+  (helm-migemo-mode +1))
+
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-x I") 'helm-imenu)
