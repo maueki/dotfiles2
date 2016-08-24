@@ -4,16 +4,16 @@
 (require 'helm-ls-git)
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-for-files)
+(global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-x I") 'helm-imenu)
 (global-set-key (kbd "C-x r l") 'helm-bookmarks)
 (global-set-key (kbd "M-x") 'helm-M-x)
+;(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
-(setq helm-for-files-preferred-list
+(setq helm-mini-default-sources
       '(helm-source-buffers-list
-	helm-source-ls-git
+        helm-source-ls-git
         helm-source-recentf
         helm-source-file-cache
         ;; helm-source-files-in-current-dir
         helm-source-locate))
-
