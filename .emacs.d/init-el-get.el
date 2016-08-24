@@ -11,6 +11,7 @@
 (el-get-bundle grep-a-lot)
 (el-get-bundle company-mode)
 (el-get-bundle irony-mode)
+(el-get-bundle irony-eldoc)
 (el-get-bundle company-irony)
 (el-get-bundle init-loader)
 (el-get-bundle web-mode)
