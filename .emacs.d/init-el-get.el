@@ -29,3 +29,6 @@
 (el-get-bundle recentf-ext)
 (el-get-bundle emmet-mode)
 (el-get-bundle migemo)
+(el-get-bundle auto-complete) ; required from jedi-core
+(el-get-bundle jedi-core)
+(el-get-bundle company-jedi)
