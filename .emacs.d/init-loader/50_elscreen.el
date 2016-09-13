@@ -1,1 +1,1 @@
-../inits/elscreen.el
+../init/elscreen.el

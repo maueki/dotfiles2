@@ -1,1 +1,1 @@
-../inits/yasnippet_init.el
+../init/yasnippet_init.el

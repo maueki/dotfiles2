@@ -32,3 +32,4 @@
 (el-get-bundle auto-complete) ; required from jedi-core
 (el-get-bundle jedi-core)
 (el-get-bundle company-jedi)
+(el-get-bundle csharp-mode)

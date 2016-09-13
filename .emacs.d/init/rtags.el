@@ -11,7 +11,3 @@
     (my-adapt-coding-system-with-current-buffer rtags-find-symbols-by-name-internal)
     (custom-set-variables '(rtags-use-helm t))
     ))
-
-
-
-

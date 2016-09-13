@@ -1,1 +1,1 @@
-../inits/c++-mode.el
+../init/c++-mode.el

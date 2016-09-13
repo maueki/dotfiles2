@@ -12,4 +12,3 @@
 (define-key global-map (kbd "M-;") 'elscreen-previous)
 ;(global-set-key [?\C-t] 'elscreen-clone)
 (define-key global-map (kbd "M-t") 'elscreen-clone)
-;(global-set-key [?\C-q] 'elscreen-kill) ; C-q [TAB]を使いたいのでコメントアウト

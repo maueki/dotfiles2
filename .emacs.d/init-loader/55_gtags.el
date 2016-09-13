@@ -1,0 +1,1 @@
+../init/gtags_init.el
