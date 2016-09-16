@@ -33,3 +33,7 @@
 (el-get-bundle jedi-core)
 (el-get-bundle company-jedi)
 (el-get-bundle csharp-mode)
+(el-get-bundle tuareg-mode)
+(el-get-bundle utop)
+(el-get-bundle iedit)
+(el-get-bundle merlin)
