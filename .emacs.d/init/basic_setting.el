@@ -29,6 +29,8 @@
 ; open cheat sheet
 (global-set-key [f12] '(lambda () (interactive) (browse-url "http://qiita.com/maueki/private/32b604b58578a354b287")))
 
+(global-set-key [f1] 'help-command)
+
 ;; anything
 ;(require 'anything-startup)
 
