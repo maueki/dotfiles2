@@ -16,7 +16,6 @@
 (el-get-bundle init-loader)
 (el-get-bundle web-mode)
 (el-get-bundle magit)
-(el-get-bundle elixir-mode)
 (el-get-bundle qml-mode)
 (el-get-bundle adoc-mode)
 (el-get-bundle anzu)
@@ -37,3 +36,4 @@
 (el-get-bundle utop)
 (el-get-bundle iedit)
 (el-get-bundle merlin)
+(el-get-bundle alchemist)
