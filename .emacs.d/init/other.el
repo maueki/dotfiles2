@@ -5,6 +5,7 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (require 'elixir-mode)
+(require 'alchemist)
 
 (require 'qml-mode)
 (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
@@ -15,5 +16,5 @@
 (setq tramp-inline-compress-start-size nil)
 (setq password-cache-expiry nil)
 
-(add-to-list 'auto-mode-alist '("\\.pu$" . puml-mode))
-(require 'puml-mode)
+(when (require 'puml-mode nil 'noerror)
+  (add-to-list 'auto-mode-alist '("\\.pu$" . puml-mode)))
