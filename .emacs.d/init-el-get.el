@@ -28,9 +28,6 @@
 (el-get-bundle recentf-ext)
 (el-get-bundle emmet-mode)
 (el-get-bundle migemo)
-(el-get-bundle auto-complete) ; required from jedi-core
-(el-get-bundle jedi-core)
-(el-get-bundle company-jedi)
 (el-get-bundle csharp-mode)
 (el-get-bundle tuareg-mode)
 (el-get-bundle utop)
