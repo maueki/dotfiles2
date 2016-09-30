@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tuple
+# key: tp
+# --
+{$1}$0
