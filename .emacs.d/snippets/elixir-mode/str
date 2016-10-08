@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: str
+# key: s
+# condition: (elixir-syntax-in-string-or-comment-p)
+# --
+#{$0}

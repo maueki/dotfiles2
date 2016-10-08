@@ -2,4 +2,4 @@
 # name: tuple
 # key: tp
 # --
-{$1}$0
+{$0}
