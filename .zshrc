@@ -162,7 +162,7 @@ export PATH=$PATH:$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$HOME/opt/play:$HOM
 if [[ ${OSTYPE} == darwin* ]] then
   alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
 else
-  alias emacs="TERM=screen-256color emacs24 -nw"
+  alias emacs="TERM=screen-256color emacs25 -nw"
 fi
 
 cheat-sheet () { zle -M "`cat ~/.zsh/cheatsheets/cheat-sheet.conf`" }
