@@ -15,7 +15,8 @@
 (el-get-bundle company-irony)
 (el-get-bundle init-loader)
 (el-get-bundle web-mode)
-(el-get-bundle magit)
+(el-get-bundle magit
+  :branch "2.6.2")
 (el-get-bundle qml-mode)
 (el-get-bundle adoc-mode)
 (el-get-bundle anzu)
