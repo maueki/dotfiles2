@@ -1,3 +1,4 @@
+(require 'whitespace)
 (when (boundp 'show-trailing-whitespace)
   (setq-default show-trailing-whitespace t))
 (set-face-background 'trailing-whitespace "purple4")
@@ -11,9 +12,10 @@
         (tab-mark   ?\t   [?\xBB ?\t])
         ))
 
-(require 'whitespace)
 (set-face-foreground 'whitespace-space "aaaaaa")
 (set-face-background 'whitespace-space 'nil)
 (set-face-foreground 'whitespace-tab "#444444")
 (set-face-background 'whitespace-tab 'nil)
-(global-whitespace-mode 1)
+;(global-whitespace-mode 1)
+
+(add-hook 'c-mode-common-hook 'whitespace-mode)
