@@ -18,3 +18,15 @@
 
 (when (require 'puml-mode nil 'noerror)
   (add-to-list 'auto-mode-alist '("\\.pu$" . puml-mode)))
+
+; google-translate for c/c++ comment
+(require 'google-translate)
+
+(defun remove-c-comment (args)
+  (let ((text (nth 2 args)))
+    (setf (nth 2 args) (replace-regexp-in-string "^ *// *" ""
+                                                 (replace-regexp-in-string "^ *\\* *" "" text)))
+    args))
+
+(advice-add 'google-translate-request :filter-args
+            #'remove-c-comment)

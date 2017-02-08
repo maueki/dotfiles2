@@ -35,3 +35,4 @@
 (el-get-bundle iedit)
 (el-get-bundle merlin)
 (el-get-bundle alchemist)
+(el-get-bundle google-translate)
