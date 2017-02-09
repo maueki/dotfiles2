@@ -21,6 +21,9 @@
 
 ; google-translate for c/c++ comment
 (require 'google-translate)
+(require 'google-translate-smooth-ui)
+(global-set-key (kbd "C-c t") 'google-translate-smooth-translate)
+(setq google-translate-translation-directions-alist '(("en" . "ja") ("ja" . "en")))
 
 (defun remove-c-comment (args)
   (let ((text (nth 2 args)))
