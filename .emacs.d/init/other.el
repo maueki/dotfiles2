@@ -27,8 +27,8 @@
 
 (defun remove-c-comment (args)
   (let ((text (nth 2 args)))
-    (setf (nth 2 args) (replace-regexp-in-string "^ *// *" ""
-                                                 (replace-regexp-in-string "^ *\\* *" "" text)))
+    (setf (nth 2 args) (replace-regexp-in-string "[ \t]+// +" ""
+                                                 (replace-regexp-in-string "[ \t]+\\* +" "" text)))
     args))
 
 (advice-add 'google-translate-request :filter-args
