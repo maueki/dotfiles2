@@ -33,3 +33,7 @@
 
 (advice-add 'google-translate-request :filter-args
             #'remove-c-comment)
+
+; editorconfig
+(require 'editorconfig)
+(editorconfig-mode 1)
