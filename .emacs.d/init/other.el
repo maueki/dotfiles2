@@ -37,3 +37,7 @@
 ; editorconfig
 (require 'editorconfig)
 (editorconfig-mode 1)
+(defun x-clipboard-copy ()
+  (interactive)
+  (when (region-active-p)
+    (shell-command-on-region (region-beginning) (region-end) "xsel -ib" nil nil)))
