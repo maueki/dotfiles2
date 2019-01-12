@@ -160,7 +160,7 @@ export ANDROID_SDK_ROOT=$HOME/opt/android
 export PATH=$PATH:$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$HOME/opt/play:$HOME/opt/bin:$HOME/opt/scala/bin:$HOME/opt/android/tools:/usr/local/bin:$HOME/.nave
 
 if [[ ${OSTYPE} == darwin* ]] then
-  alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
+  alias emacs="/usr/local/bin/emacs"
 else
   alias emacs="TERM=screen-256color emacs25 -nw"
 fi
