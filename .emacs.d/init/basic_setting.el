@@ -11,7 +11,6 @@
        load-path
        (list
         (expand-file-name "~/.emacs.d/site-lisp/")
-        (expand-file-name "~/.emacs.d/site-lisp/magit/lisp")
         (expand-file-name "~/.emacs.d/local/")
         "/usr/local/share/emacs/site-lisp/rtags"
        )))
@@ -30,6 +29,8 @@
 (global-set-key [f12] '(lambda () (interactive) (browse-url "http://qiita.com/maueki/private/32b604b58578a354b287")))
 
 (global-set-key [f1] 'help-command)
+
+(global-set-key [f3] 'helm-grep-do-git-grep)
 
 ;; anything
 ;(require 'anything-startup)
@@ -55,7 +56,7 @@
 
 (keyboard-translate ?\C-h ?\C-?)
 
-(require 'migemo)
+;(require 'migemo)
 ;(load "migemo")
 
 ;C-xjでSKKが起動しないようにする
@@ -96,11 +97,13 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; redo+.el
-(require 'redo+)
-(global-set-key (kbd "C-M-_") 'redo)
-(setq undo-no-redo t) ; 過去のundoがredoされないようにする
-(setq undo-limit 600000)
-(setq undo-strong-limit 900000)
+(use-package redo+
+  :bind (("C-M-_" . redo))
+  :config
+  (setq undo-no-redo t) ; 過去のundoがredoされないようにする
+  (setq undo-limit 600000)
+  (setq undo-strong-limit 900000)
+)
 
 ;; recentf
 ;; 最近のファイルの10000個を保存する
@@ -180,5 +183,5 @@ prefer for `sh-mode'.  It is automatically added to
 
 (global-anzu-mode +1)
 
-(require 'auto-highlight-symbol)
-(global-auto-highlight-symbol-mode t)
+;(require 'auto-highlight-symbol)
+;(global-auto-highlight-symbol-mode t)

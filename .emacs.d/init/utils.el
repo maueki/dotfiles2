@@ -1,3 +1,8 @@
+(defun x-clipboard-copy ()
+  (interactive)
+  (when (region-active-p)
+    (shell-command-on-region (region-beginning) (region-end) "xsel -ib" nil nil)))
+
 (defun open-in-browser()
   (interactive)
   (let ((filename (buffer-file-name)))

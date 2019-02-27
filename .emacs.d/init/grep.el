@@ -1,4 +1,4 @@
-(require 'grep-a-lot)
+(use-package grep-a-lot)
 
 ; for grep-edit
 ;(require 'grep-edit)

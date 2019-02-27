@@ -1,43 +1,63 @@
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(use-package markdown-mode
+  :mode (("\\.text\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)
+         ("\\.md\\'" . markdown-mode))
+)
 
-(require 'elixir-mode)
-(require 'alchemist)
+(use-package tramp
+  :config
+  (setq tramp-copy-size-limit nil)
+  (setq tramp-inline-compress-start-size nil)
+  (setq password-cache-expiry nil)
+)
 
-(require 'qml-mode)
-(add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
+;;----------------------------------------
+;; vc-mode は使わない
+;;  http://stackoverflow.com/questions/5748814/how-does-one-disable-vc-git-in-emacs
+;;----------------------------------------
+(setq vc-handled-backends ())
 
-(require 'adoc-mode)
+(use-package plantuml-mode
+  :mode (("\\.pu$" . plantuml-mode))
+)
 
-(setq tramp-copy-size-limit nil)
-(setq tramp-inline-compress-start-size nil)
-(setq password-cache-expiry nil)
+(use-package google-translate
+  :bind
+  (("C-c t" . google-translate-enja-or-jaen))
+  :config
+;  (setq google-translate-translation-directions-alist '(("en" . "ja") ("ja" . "en")))
 
-(when (require 'puml-mode nil 'noerror)
-  (add-to-list 'auto-mode-alist '("\\.pu$" . puml-mode)))
+  (defun google-translate-enja-or-jaen (&optional string)
+    "Translate words in region or current position. Can also specify query with C-u"
+    (interactive)
+    (setq string
+          (cond ((stringp string) string)
+                (current-prefix-arg
+                 (read-string "Google Translate: "))
+                ((use-region-p)
+                 (buffer-substring (region-beginning) (region-end)))
+                (t
+                 (thing-at-point 'word))))
+    (let* ((asciip (string-match
+                    (format "\\`[%s]+\\'" "[:ascii:]’“”–")
+                    string)))
+      (run-at-time 0.1 nil 'deactivate-mark)
+      (google-translate-translate
+       (if asciip "en" "ja")
+       (if asciip "ja" "en")
+       string)))
 
-; google-translate for c/c++ comment
-(require 'google-translate)
-(require 'google-translate-smooth-ui)
-(global-set-key (kbd "C-c t") 'google-translate-smooth-translate)
-(setq google-translate-translation-directions-alist '(("en" . "ja") ("ja" . "en")))
+  (defun remove-c-comment (args)
+    (let ((text (nth 2 args)))
+      (setf (nth 2 args) (replace-regexp-in-string "[ \t]+//[ \t]+" ""
+                                                   (replace-regexp-in-string "[ \t]+\\(\\*[ \t]+\\)+" " " text)))
+      args))
 
-(defun remove-c-comment (args)
-  (let ((text (nth 2 args)))
-    (setf (nth 2 args) (replace-regexp-in-string "[ \t]+//[ \t]+" ""
-                                                 (replace-regexp-in-string "[ \t]+\\(\\*[ \t]+\\)+" " " text)))
-    args))
+  (advice-add 'google-translate-request :filter-args
+              #'remove-c-comment)
+)
 
-(advice-add 'google-translate-request :filter-args
-            #'remove-c-comment)
-
-; editorconfig
-(require 'editorconfig)
-(editorconfig-mode 1)
-(defun x-clipboard-copy ()
-  (interactive)
-  (when (region-active-p)
-    (shell-command-on-region (region-beginning) (region-end) "xsel -ib" nil nil)))
+(use-package editorconfig
+  :init
+  (editorconfig-mode 1)
+)
