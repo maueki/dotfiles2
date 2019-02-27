@@ -16,8 +16,6 @@
 (straight-use-package 'use-package)
 
 (setq straight-use-package-by-default t)
-(require 'use-package-ensure)
-(setq use-pacakge-always-ensure t)
 
 (use-package init-loader)
 
