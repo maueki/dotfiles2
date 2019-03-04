@@ -1,9 +1,8 @@
 
 (use-package company
-  :bind (:map company-mode-map
-              ("C-c TAB" . company-complete))
   :config
   (global-company-mode)
+
   :diminish company-mode)
 
 (use-package irony
@@ -11,3 +10,7 @@
   (use-package company-irony
     :config
     (push 'company-irony company-backends)))
+
+(use-package flymake
+  :config
+  (setq flymake-no-changes-timeout 2))
