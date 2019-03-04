@@ -22,6 +22,9 @@
        helm-source-file-cache
        helm-source-locate
        )))
+  (use-package helm-xref
+    :config
+    (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
 )
 
 ;(when (require 'migemo nil 'noerror)
