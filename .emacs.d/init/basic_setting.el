@@ -32,42 +32,13 @@
 
 (global-set-key [f3] 'helm-grep-do-git-grep)
 
-;; anything
-;(require 'anything-startup)
-
-;(global-set-key (kbd "M-y") 'anything-show-kill-ring)
-;(global-set-key (kbd "C-x b") 'anything-for-files)
-
 (global-font-lock-mode t)
-;(load "term/bobcat")
-
-;; skk
-;(set-input-method "japanese-skk")
-;(inactivate-input-method)
 
 ;; 対応するカッコをハイライト
 (show-paren-mode)
 
-;moccur
-;(require 'color-moccur)
-;(require 'moccur-edit)
-
-;(load "term/keyswap")
-
+;(load "term/bobcat")
 (keyboard-translate ?\C-h ?\C-?)
-
-;(require 'migemo)
-;(load "migemo")
-
-;C-xjでSKKが起動しないようにする
-;(global-set-key "\C-xj" 'register-to-point)
-
-;; 以下独自設定
-
-;行番号を表示させる
-;(require 'linum)
-;(setq linum-format "%5d|")
-;(global-linum-mode)
 
 ;Meta-gで行移動できるようにする
 (global-set-key "\M-g" 'goto-line)
@@ -119,7 +90,7 @@
 (require 'saveplace)
 
 ;;; モードラインに時刻を表示
-(display-time)
+;(display-time)
 
 ;;; GCを減らして軽くする
 (setq gc-cons-threshold (* 10 gc-cons-threshold))
@@ -159,32 +130,11 @@
 ;;; t にすると mini buffer に値が表示される
 (setq gud-tooltip-echo-area nil)
 
-;;; shell-mode
-(defun setup-sh-mode ()
-  "My own personal preferences for `sh-mode'.
-
-This is a custom function that sets up the parameters I usually
-prefer for `sh-mode'.  It is automatically added to
-`sh-mode-hook', but is can also be called interactively."
-  (interactive)
-  (setq sh-basic-offset 2
-        sh-indentation 2))
-(add-hook 'sh-mode-hook 'setup-sh-mode)
-
 (setq-default indent-tabs-mode nil)
 
 ; 改行時のindentを抑制
 (electric-indent-mode -1)
 
-;; East Asian Ambiguous Width -> full width
-;(require 'eaw)
-;(eaw-fullwidth)
-
 ;; clang format
 (load "~/.emacs.d/site-lisp/clang-format.el")
 (global-set-key (kbd "C-M-c") 'clang-format-buffer)
-
-(global-anzu-mode +1)
-
-;(require 'auto-highlight-symbol)
-;(global-auto-highlight-symbol-mode t)
