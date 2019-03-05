@@ -40,7 +40,20 @@
 (use-package eglot
   :bind (:map eglot-mode-map
               ("C-c C-d" . eglot-help-at-point)
-              ("C-c C-r" . eglot-code-actions))
+              ("C-c C-r" . eglot-code-actions)
+              ("C-c C-w" . eglot-help-url-to-browser))
   :hook
   ((c-mode-common . eglot-ensure))
+  :config
+  (defun eglot-help-url-to-browser ()
+    "Request information url for the thing at point to brower."
+    (interactive)
+    (eglot--dbind ((Hover) contents range)
+        (jsonrpc-request (eglot--current-server-or-lose) :textDocument/hover
+                         (eglot--TextDocumentPositionParams))
+      (when (seq-empty-p contents) (eglot--error "No hover info here"))
+      (let ((blurb (eglot--hover-info contents range)))
+        (string-match "^\\(https://.*\\)$" blurb)
+        (browse-url (match-string 1 blurb)))))
   )
+
