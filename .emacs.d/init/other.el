@@ -15,7 +15,7 @@
 ;; vc-mode は使わない
 ;;  http://stackoverflow.com/questions/5748814/how-does-one-disable-vc-git-in-emacs
 ;;----------------------------------------
-(setq vc-handled-backends ())
+;(setq vc-handled-backends ())
 
 (use-package plantuml-mode
   :mode (("\\.pu$" . plantuml-mode))

@@ -143,6 +143,9 @@
 ;;; ツールバーを消す
 (tool-bar-mode -1)
 
+;;; メニューバーを消す
+(menu-bar-mode -1)
+
 ;;; GDB 関連
 ;;; 有用なバッファを開くモード
 (setq gdb-many-windows t)
