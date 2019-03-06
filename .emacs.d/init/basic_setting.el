@@ -1,7 +1,3 @@
-(setq custom-file "~/.emacs.d/site-lisp/custom.el")
-(if (file-exists-p (expand-file-name "~/.emacs.d/site-lisp/custom.el"))
-    (load (expand-file-name custom-file) t nil nil))
-
 ; for emacs24.4
 (if (fboundp 'package--ac-desc-version)
     (fset 'package-desc-vers 'package--ac-desc-version))

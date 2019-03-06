@@ -20,3 +20,7 @@
 (use-package init-loader)
 
 (init-loader-load (concat user-emacs-directory "init-loader"))
+
+(setq custom-file "~/.emacs.d/site-lisp/custom.el")
+(if (file-exists-p (expand-file-name "~/.emacs.d/site-lisp/custom.el"))
+    (load (expand-file-name custom-file) t nil nil))
