@@ -53,7 +53,9 @@
                          (eglot--TextDocumentPositionParams))
       (when (seq-empty-p contents) (eglot--error "No hover info here"))
       (let ((blurb (eglot--hover-info contents range)))
-        (string-match "^\\(https://.*\\)$" blurb)
-        (browse-url (match-string 1 blurb)))))
-  )
+        (if (string-match "^\\(https://.*\\)$" blurb)
+            (browse-url (match-string 1 blurb))
+          (eglot--error "No url found"))))
+    )
+)
 
