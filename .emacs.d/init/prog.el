@@ -26,7 +26,30 @@
 
 (use-package flymake
   :custom
-  (flymake-no-changes-timeout 2))
+  (flymake-no-changes-timeout 2)
+  :config/el-patch
+  (el-patch-defun flymake--schedule-timer-maybe ()
+  "(Re)schedule an idle timer for checking the buffer.
+Do it only if `flymake-no-changes-timeout' is non-nil."
+  (when flymake-timer (cancel-timer flymake-timer))
+  (when flymake-no-changes-timeout
+    (setq
+     flymake-timer
+     (run-with-idle-timer
+      ((el-patch-swap encode-time seconds-to-time) flymake-no-changes-timeout)
+      nil
+      (lambda (buffer)
+        (when (buffer-live-p buffer)
+          (with-current-buffer buffer
+            (when (and flymake-mode
+                       flymake-no-changes-timeout)
+	      (flymake-log
+               :debug "starting syntax check after idle for %s seconds"
+               flymake-no-changes-timeout)
+	      (flymake-start t))
+            (setq flymake-timer nil))))
+      (current-buffer)))))
+  )
 
 (use-package projectile
   :config
