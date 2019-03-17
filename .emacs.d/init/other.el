@@ -55,6 +55,9 @@
 
   (advice-add 'google-translate-request :filter-args
               #'remove-c-comment)
+
+  :config/el-patch
+  (el-patch-defun google-translate--search-tkk () "Search TKK." (list 430675 2721866130))
 )
 
 (use-package editorconfig
