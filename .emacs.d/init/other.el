@@ -57,7 +57,20 @@
               #'remove-c-comment)
 
   :config/el-patch
-  (el-patch-defun google-translate--search-tkk () "Search TKK." (list 430675 2721866130))
+  (el-patch-defun google-translate--search-tkk ()
+    "Search TKK."
+    (el-patch-swap
+      (let ((start nil)
+            (tkk nil)
+            (nums '()))
+        (setq start (search-forward ",tkk:'"))
+        (search-forward "',")
+        (backward-char 2)
+        (setq tkk (buffer-substring start (point)))
+        (setq nums (split-string tkk "\\."))
+        (list (string-to-number (car nums))
+              (string-to-number (car (cdr nums)))))
+      (list 430675 2721866130)))
 )
 
 (use-package editorconfig
