@@ -17,3 +17,17 @@
     (let ((fname buffer-file-name))
       (if (stringp fname)
           (shell-command (concat "tmux new-window -c \"$(dirname " fname ")\""))))))
+
+;; transparency
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter
+     nil 'alpha
+     (if (eql (cond ((numberp alpha) alpha)
+                    ((numberp (cdr alpha)) (cdr alpha))
+                    ;; Also handle undocumented (<active> <inactive>) form.
+                    ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+         '(90 . 90) '(100 . 100)))))
+(global-set-key (kbd "C-c C-t") 'toggle-transparency)
