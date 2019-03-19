@@ -134,3 +134,7 @@
 ;; clang format
 (load "~/.emacs.d/site-lisp/clang-format.el")
 (global-set-key (kbd "C-M-c") 'clang-format-buffer)
+
+(custom-set-variables
+ '(vc-follow-symlinks t) ;; symlink 開くのに警告を出さない
+ )
