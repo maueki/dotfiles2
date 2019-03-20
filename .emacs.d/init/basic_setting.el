@@ -141,3 +141,8 @@
 (custom-set-variables
  '(vc-follow-symlinks t) ;; symlink 開くのに警告を出さない
  )
+
+(setq display-time-string-forms
+      '((format "%s/%s/%s(%s) %s:%s" year month day dayname 24-hours minutes)))
+
+(display-time)
