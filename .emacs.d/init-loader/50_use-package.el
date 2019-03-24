@@ -278,8 +278,9 @@ Do it only if `flymake-no-changes-timeout' is non-nil."
 
   (defun remove-c-comment (args)
     (let ((text (nth 2 args)))
-      (setf (nth 2 args) (replace-regexp-in-string "[ \t]+//[ \t]+" ""
-                                                   (replace-regexp-in-string "[ \t]+\\(\\*[ \t]+\\)+" " " text)))
+      (setf (nth 2 args) (replace-regexp-in-string "\n" " "
+                                                   (replace-regexp-in-string "[ \t]*//[/*!]*[ \t]+" ""
+                                                                             (replace-regexp-in-string "[ \t]+\\(\\*[ \t]+\\)+" " " text))))
       args))
 
   (advice-add 'google-translate-request :filter-args
