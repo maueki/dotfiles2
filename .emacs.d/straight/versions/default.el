@@ -21,7 +21,7 @@
  ("epkgs" . "4deec8c8e605f85ee862302345e680bce6dde756")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("f.el" . "8191672377816a1975414cc1f116fd3b94b30bd0")
- ("flymake" . "5b360387ada73993f4797388c08ba47cc3368850")
+ ("flymake" . "b9c41959860254fa49e90441a249b1156acd3a4e")
  ("gnu-elpa-mirror" . "465b72fc1fbef05f876879ee7270b5a312598bd0")
  ("google-translate" . "bf119aac424994d2aa91fce9630adc01ed0ea617")
  ("helm" . "8de179db41598515f1db758b8d35728a3fd58f18")
