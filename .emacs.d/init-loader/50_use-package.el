@@ -334,7 +334,7 @@
 
 (use-package ace-window
   :bind
-  (("C-c C-j" . ace-window))
+  (("C-'" . ace-window))
   :custom-face
   (aw-leading-char-face ((t (:height 3.0 :foreground "#f1fa8c"))))
   )
