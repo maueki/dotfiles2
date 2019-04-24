@@ -1,0 +1,35 @@
+# -*- mode: snippet -*-
+# name: ft
+# key: ft
+# --
+#[derive(Debug)]
+struct FenwickTree {
+    n: usize,
+    bit: Vec<usize>,
+}
+
+impl FenwickTree {
+    fn new(n: usize) -> Self {
+        FenwickTree { n, bit: vec![0; n] }
+    }
+
+    // [0, i)
+    fn sum(&self, i: usize) -> usize {
+        let mut s = 0;
+        let mut i = i as isize;
+        while i > 0 {
+            i -= 1;
+            s += self.bit[i as usize];
+            i &= i + 1;
+        }
+        s
+    }
+
+    fn add(&mut self, i: usize, x: usize) {
+        let mut i = i;
+        while i < self.n {
+            self.bit[i] += x;
+            i |= i + 1;
+        }
+    }
+}
