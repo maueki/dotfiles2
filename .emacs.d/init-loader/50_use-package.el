@@ -339,7 +339,11 @@
   (aw-leading-char-face ((t (:height 3.0 :foreground "#f1fa8c"))))
   )
 
+(use-package cargo)
 
 (use-package rustic
-  :after (lsp-mode)
+  :after (lsp-mode cargo)
+  :bind
+  (:map rustic-mode-map
+        ("C-c C-c C-r" . cargo-process-run))
   )
