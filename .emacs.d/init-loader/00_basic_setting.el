@@ -142,11 +142,6 @@
  '(vc-follow-symlinks t) ;; symlink 開くのに警告を出さない
  )
 
-(setq display-time-string-forms
-      '((format "%s/%s/%s(%s) %s:%s" year month day dayname 24-hours minutes)))
-
-(display-time)
-
 ;; hs-minor-mode
 (add-hook 'c-mode-common-hook   'hs-minor-mode)
 (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
