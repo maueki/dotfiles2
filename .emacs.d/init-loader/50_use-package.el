@@ -86,6 +86,7 @@
   (lsp-response-timeout 5)
   (lsp-prefer-flymake 'flymake)
   (lsp-enable-completion-at-point nil)
+  (lsp-enable-on-type-formatting nil)
 ;  :hook
 ;  (go-mode . lsp)
   :bind
