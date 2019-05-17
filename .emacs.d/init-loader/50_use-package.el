@@ -160,6 +160,20 @@
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
 
+(use-package omnisharp
+  :hook ((csharp-mode . omnisharp-mode)
+         (csharp-mode . company-mode))
+  :bind
+  (:map omnisharp-mode-map
+        ([remap xref-find-definitions] . omnisharp-go-to-definition)
+        ([remap xref-find-references] . omnisharp-helm-find-usages)
+        )
+  :custom
+  (eval-after-load
+      'company
+    '(add-to-list 'company-backends #'company-omnisharp))
+  )
+
 (use-package yasnippet
   :init
   (yas-global-mode 1)
