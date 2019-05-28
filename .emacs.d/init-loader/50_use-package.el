@@ -174,12 +174,15 @@
     '(add-to-list 'company-backends #'company-omnisharp))
   )
 
-(use-package yasnippet
   :init
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs (list (expand-file-name "~/.emacs.d/snippets")))
+  (yas-reload-all)
   (yas-global-mode 1)
-  (add-to-list 'yas/root-directory "~/.emacs.d/snippets")
-  (yas/initialize)
 )
+
+(use-package yasnippet-snippets)
 
 (use-package whitespace
   :config
