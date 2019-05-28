@@ -174,7 +174,13 @@
     '(add-to-list 'company-backends #'company-omnisharp))
   )
 
+(use-package elpy
   :init
+  (elpy-enable)
+  :config
+  (setq elpy-rpc-python-command "python3")
+  )
+
 (use-package yasnippet
   :config
   (setq yas-snippet-dirs (list (expand-file-name "~/.emacs.d/snippets")))
