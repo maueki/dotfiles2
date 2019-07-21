@@ -30,6 +30,12 @@
 ;(when (require 'migemo nil 'noerror)
 ;  (helm-migemo-mode +1))
 
+(use-package helm-git-grep
+  :after (helm)
+  :bind (("C-x M-g" . helm-git-grep))
+  (:map helm-map ("C-x M-g" . helm-git-grep-from-helm))
+)
+
 (use-package magit
   :bind
   (("C-x g" . magit-status))
@@ -154,12 +160,35 @@
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
 
-(use-package yasnippet
+(use-package omnisharp
+  :hook ((csharp-mode . omnisharp-mode)
+         (csharp-mode . company-mode))
+  :bind
+  (:map omnisharp-mode-map
+        ([remap xref-find-definitions] . omnisharp-go-to-definition)
+        ([remap xref-find-references] . omnisharp-helm-find-usages)
+        )
+  :custom
+  (eval-after-load
+      'company
+    '(add-to-list 'company-backends #'company-omnisharp))
+  )
+
+(use-package elpy
   :init
+  (elpy-enable)
+  :config
+  (setq elpy-rpc-python-command "python3")
+  )
+
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs (list (expand-file-name "~/.emacs.d/snippets")))
+  (yas-reload-all)
   (yas-global-mode 1)
-  (add-to-list 'yas/root-directory "~/.emacs.d/snippets")
-  (yas/initialize)
 )
+
+(use-package yasnippet-snippets)
 
 (use-package whitespace
   :config
