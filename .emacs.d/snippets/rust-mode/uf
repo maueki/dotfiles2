@@ -1,0 +1,42 @@
+# -*- mode: snippet -*-
+# name: uf
+# key: uf
+# --
+use std::rc::Rc;
+use std::cell::RefCell;
+
+struct UnionFind {
+    par: Rc<RefCell<Vec<usize>>>
+}
+
+impl UnionFind {
+    fn new(n: usize) -> Self {
+        let uf = UnionFind{ par: Rc::new(RefCell::new(vec![0; n])) };
+        for i in 0..n {
+            uf.par.borrow_mut()[i] = i;
+        }
+        uf
+    }
+
+    fn root(&self, x: usize) -> usize {
+        let t = self.par.borrow()[x];
+        if  t == x {
+            x
+        } else {
+            self.par.borrow_mut()[x] = self.root(t);
+            self.par.borrow()[x]
+        }
+    }
+
+    fn same(&self, x: usize, y: usize) -> bool {
+        self.root(x) == self.root(y)
+    }
+
+    fn unite(&self, mut x: usize, mut y: usize) {
+        x = self.root(x);
+        y = self.root(y);
+        if x == y{ return }
+
+        self.par.borrow_mut()[x] = y;
+    }
+}

@@ -1,0 +1,61 @@
+mod dijkstra {
+    use std::cmp::Ordering;
+    use std::collections::BinaryHeap;
+    use std::collections::HashMap;
+    use std::hash::Hash;
+
+    #[derive(Copy, Clone, Eq, PartialEq)]
+    pub struct State<T>
+    {
+        pub cost: usize,
+        pub pos: T
+    }
+
+    pub trait Context<T>
+    {
+        fn cost(&self, pos: T) -> usize;
+        fn update_cost(&mut self, s: &State<T>);
+        fn neighbours(&self, s: &State<T>) -> Vec<State<T>>;
+
+        fn run(&mut self, start: State<T>, end: T) -> Option<usize>
+        where T: Copy+Ord {
+            let mut heap = BinaryHeap::new();
+            heap.push(start);
+
+            while let Some(State {cost, pos}) = heap.pop() {
+                if pos == end {
+                    return Some(cost);
+                }
+
+                if cost > self.cost(pos) { continue; }
+
+                for next in self.neighbours(&State {cost: cost, pos: pos}) {
+                    if next.cost < self.cost(next.pos) {
+                        self.update_cost(&next);
+                        heap.push(next);
+                    }
+                }
+            }
+            None
+        }
+    }
+
+    impl<T> Ord for State<T>
+    where T: Copy+Ord {
+        fn cmp(&self, other: &State<T>) -> Ordering {
+            let c = other.cost.cmp(&self.cost);
+
+            if c == Ordering::Equal {
+                self.pos.cmp(&other.pos)
+            } else {
+                c
+            }
+        }
+    }
+
+    impl<T: Copy+Ord> PartialOrd for State<T> {
+        fn partial_cmp(&self, other: &State<T>) -> Option<Ordering> {
+            Some(self.cmp(other))
+        }
+    }
+}
