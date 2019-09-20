@@ -181,6 +181,11 @@
   (setq elpy-rpc-python-command "python3")
   )
 
+(use-package py-autopep8
+  :hook
+  (python-mode . py-autopep8-enable-on-save)
+)
+
 (use-package yasnippet
   :config
   (setq yas-snippet-dirs (list (expand-file-name "~/.emacs.d/snippets")))
