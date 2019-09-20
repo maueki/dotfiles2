@@ -1,0 +1,44 @@
+pub trait BinarySearch<T> {
+    fn lower_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, mut f: F) -> usize;
+    fn lower_bound(&self, x: &T) -> usize;
+    fn upper_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, mut f: F) -> usize;
+    fn upper_bound(&self, x: &T) -> usize;
+}
+
+impl<T: Ord + Clone> BinarySearch<T> for Vec<T> {
+    fn lower_bound(&self, x: &T) -> usize {
+        self.lower_bound_by_key(x, |y| y.clone())
+    }
+
+    fn lower_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, mut f: F) -> usize {
+        let mut high = self.len();
+        let mut low = 0;
+        while low < high {
+            let mid = (low + high) / 2;
+            if f(&self[mid]).lt(&f(x)) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        low
+    }
+
+    fn upper_bound(&self, x: &T) -> usize {
+        self.upper_bound_by_key(x, |y| y.clone())
+    }
+
+    fn upper_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, mut f: F) -> usize {
+        let mut high = self.len();
+        let mut up = 0;
+        while up < high {
+            let mid = (up + high) / 2;
+            if f(&self[mid]).le(&f(x)) {
+                up = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        up
+    }
+}
