@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: gcd
+# key: gcd
+# --
+fn gcd(a: usize, b: usize) -> usize {
+    use std::cmp::{max, min};
+    let mi = min(a, b);
+    let ma = max(a, b);
+
+    let r = ma % mi;
+    if r == 0 {
+        return mi;
+    }
+
+    gcd(mi, r)
+}
