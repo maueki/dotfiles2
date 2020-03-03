@@ -32,8 +32,8 @@
 
 (use-package helm-git-grep
   :after (helm)
-  :bind (("C-x M-g" . helm-git-grep))
-  (:map helm-map ("C-x M-g" . helm-git-grep-from-helm))
+  :bind (("<f4>" . helm-git-grep-at-point))
+  (:map helm-map ("<f4>" . helm-git-grep-from-helm))
 )
 
 (use-package magit

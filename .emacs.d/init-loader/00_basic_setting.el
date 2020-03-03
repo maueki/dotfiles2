@@ -64,13 +64,13 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; redo+.el
-(use-package redo+
-  :bind (("C-M-_" . redo))
-  :config
-  (setq undo-no-redo t) ; 過去のundoがredoされないようにする
-  (setq undo-limit 600000)
-  (setq undo-strong-limit 900000)
-)
+;(use-package redo+
+;  :bind (("C-M-_" . redo))
+;  :config
+;  (setq undo-no-redo t) ; 過去のundoがredoされないようにする
+;  (setq undo-limit 600000)
+;  (setq undo-strong-limit 900000)
+;)
 
 ;; recentf
 ;; 最近のファイルの10000個を保存する
@@ -141,6 +141,8 @@
 (custom-set-variables
  '(vc-follow-symlinks t) ;; symlink 開くのに警告を出さない
  )
+
+(global-set-key (kbd "C-'") 'other-window)
 
 ;; hs-minor-mode
 (add-hook 'c-mode-common-hook   'hs-minor-mode)
