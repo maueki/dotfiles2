@@ -1,40 +1,60 @@
-(use-package helm
-  :bind
-  (("M-y" . helm-show-kill-ring)
-   ("C-x b" . helm-for-files)
-   ("C-x I" . helm-semantic-or-imenu)
-   ("C-x r l" . helm-bookmarks)
-   ("M-x" . helm-M-x)
-   ; "C-x C-f" . helm-find-files)
-   ("C-<f6>" . helm-ls-git-ls)
-   ("C-x C-d" . helm-browse-project))
-  :config
-  (use-package helm-ls-git)
-  (custom-set-variables
-   '(helm-source-ls-git (helm-ls-git-build-ls-git-source))
-   '(helm-source-ls-git-status (helm-ls-git-build-git-status-source))
-   '(helm-for-files-preferred-list
-     '(helm-source-buffers-list
-       helm-source-recentf
-       helm-source-files-in-current-dir
-       helm-source-ls-git-status
-       helm-source-ls-git
-       helm-source-file-cache
-       helm-source-locate
-       )))
-  (use-package helm-xref
-    :config
-    (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
-)
+;(use-package helm
+;  :bind
+;  (("M-y" . helm-show-kill-ring)
+;   ("C-x b" . helm-for-files)
+;   ("C-x I" . helm-semantic-or-imenu)
+;   ("C-x r l" . helm-bookmarks)
+;   ("M-x" . helm-M-x)
+;   ; "C-x C-f" . helm-find-files)
+;   ("C-<f6>" . helm-ls-git-ls)
+;   ("C-x C-d" . helm-browse-project))
+;  :config
+;  (use-package helm-ls-git)
+;  (custom-set-variables
+;   '(helm-source-ls-git (helm-ls-git-build-ls-git-source))
+;   '(helm-source-ls-git-status (helm-ls-git-build-git-status-source))
+;   '(helm-for-files-preferred-list
+;     '(helm-source-buffers-list
+;       helm-source-recentf
+;       helm-source-files-in-current-dir
+;       helm-source-ls-git-status
+;       helm-source-ls-git
+;       helm-source-file-cache
+;       helm-source-locate
+;       )))
+;  (use-package helm-xref
+;    :config
+;    (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
+;)
+
+;(use-package helm-git-grep
+;  :after (helm)
+;  :bind (("<f4>" . helm-git-grep-at-point))
+;  (:map helm-map ("<f4>" . helm-git-grep-from-helm))
+;)
+
+(use-package counsel
+  :after ivy
+  :bind (("<f4>" . counsel-git-grep))
+  :config (counsel-mode))
+
+(use-package ivy
+  :defer 0.1
+  :diminish
+  :bind (("C-c C-r" . ivy-resume)
+         ("C-x B" . ivy-switch-buffer-other-window))
+  :custom
+  (ivy-count-format "(%d/%d) ")
+  (ivy-use-virtual-buffers t)
+  :config (ivy-mode))
+
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)))
 
 ;(when (require 'migemo nil 'noerror)
 ;  (helm-migemo-mode +1))
-
-(use-package helm-git-grep
-  :after (helm)
-  :bind (("<f4>" . helm-git-grep-at-point))
-  (:map helm-map ("<f4>" . helm-git-grep-from-helm))
-)
 
 (use-package magit
   :bind
