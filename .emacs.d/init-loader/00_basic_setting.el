@@ -82,7 +82,7 @@
 (savehist-mode 1)
 
 ;;; ファイル内のカーソルを記憶する
-(setq-default save-place t)
+(setq-default save-place-mode t)
 (require 'saveplace)
 
 ;;; モードラインに時刻を表示
