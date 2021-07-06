@@ -35,8 +35,14 @@
 
 (use-package counsel
   :after ivy
-  :bind (("<f4>" . counsel-git-grep))
-  :config (counsel-mode))
+  :bind (("<f4>" . counsel-git-grep)
+         ("C-x m" . counsel-mark-ring))
+  :config (counsel-mode)
+  (defun ad:counsel-git-grep (&rest args)
+    (set-mark-command args)
+    (deactivate-mark))
+  (advice-add 'counsel-git-grep :before #'ad:counsel-git-grep)
+)
 
 (use-package ivy
   :defer 0.1
