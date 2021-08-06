@@ -362,6 +362,8 @@ This function is intended to be used in parallel with
 (use-package ace-window
   :bind
   (("C-;" . ace-window))
+  :custom
+  (aw-dispatch-when-more-than 3)
   :custom-face
   (aw-leading-char-face ((t (:height 3.0 :foreground "#f1fa8c"))))
   )
