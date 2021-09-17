@@ -238,12 +238,14 @@ This function is intended to be used in parallel with
          ("\\.md\\'" . markdown-mode))
 )
 
-(use-package tramp
-  :config
-  (setq tramp-copy-size-limit nil)
-  (setq tramp-inline-compress-start-size nil)
-  (setq password-cache-expiry nil)
-)
+;(use-package tramp
+;  :config
+;  (setq tramp-copy-size-limit nil)
+;  (setq tramp-inline-compress-start-size nil)
+;  (setq password-cache-expiry nil)
+;)
+
+(use-package sudo-edit)
 
 ;;----------------------------------------
 ;; vc-mode は使わない
