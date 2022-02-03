@@ -13,10 +13,19 @@
       (compile (concat "cargo atcoder submit --bin " test-name))
       )))
 
+(defun cargo-atcoder-open-problem()
+  (interactive)
+  (let ((bfn (buffer-file-name)))
+    (string-match "\\([^/]+\\)/src/bin/\\([^/]+\\)\\.rs$" bfn)
+    (let ((problem-name (match-string 2 bfn))
+          (contest-name (match-string 1 bfn)))
+      (browse-url-generic (concat "https://atcoder.jp/contests/" contest-name "/tasks/" contest-name "_" problem-name)))))
+
 (defvar cargo-atcoder-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-t") 'cargo-atcoder-test)
     (define-key map (kbd "C-c C-s") 'cargo-atcoder-submit)
+    (define-key map (kbd "C-c C-p") 'cargo-atcoder-open-problem)
     map)
   "Keymap used in `cargo-atcode-mode'.")
 
