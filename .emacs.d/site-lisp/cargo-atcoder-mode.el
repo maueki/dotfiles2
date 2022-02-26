@@ -6,12 +6,30 @@
       (compile (concat "cargo atcoder test " test-name))
       )))
 
+;(defun cargo-atcoder-submit()
+;  (interactive)
+;  (let ((test-name (file-name-base (buffer-file-name))))
+;    (progn
+;      (compile (concat "cargo atcoder submit --bin " test-name))
+;      )))
+
 (defun cargo-atcoder-submit()
   (interactive)
-  (let ((test-name (file-name-base (buffer-file-name))))
-    (progn
-      (compile (concat "cargo atcoder submit --bin " test-name))
-      )))
+  (require 'term)
+  (let* ((process-name "cargo atcoder submit")
+         (buffer-name (concat "*" process-name "*")))
+    (when (buffer-live-p (get-buffer buffer-name))
+        (kill-buffer buffer-name))
+    (cd "../../") ; cd to cargo root
+    (let* ((test-name (file-name-base (buffer-file-name)))
+           (cmd "cargo")
+           (args (concat "atcoder submit --bin --force " test-name))
+           (switches (split-string-and-unquote args))
+           (termbuf (apply 'make-term process-name cmd nil switches)))
+      (with-current-buffer termbuf
+        (term-mode)
+        (term-char-mode))
+      (display-buffer termbuf '(nil (allow-no-window . t))))))
 
 (defun cargo-atcoder-open-problem()
   (interactive)
