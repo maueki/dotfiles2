@@ -36,12 +36,13 @@
 (use-package counsel
   :after ivy
   :bind (("<f4>" . counsel-git-grep)
-         ("C-x m" . counsel-mark-ring))
+         ("C-x m" . counsel-mark-ring)
+         ("C-x f" . counsel-git))
   :config (counsel-mode)
-  (defun ad:counsel-git-grep (&rest args)
-    (set-mark-command args)
-    (deactivate-mark))
-  (advice-add 'counsel-git-grep :before #'ad:counsel-git-grep)
+;  (defun ad:counsel-git-grep (&rest args)
+;    (set-mark-command args)
+;    (deactivate-mark))
+;  (advice-add 'counsel-git-grep :before #'ad:counsel-git-grep)
 )
 
 (use-package ivy
@@ -119,7 +120,10 @@
         )
   :config
   ;; LSP UI tools
-  (use-package lsp-ui)
+  (use-package lsp-ui
+    :custom
+    (lsp-ui-doc-position 'bottom)
+    )
   ;; Lsp completion
   (use-package company-lsp
     :custom
@@ -129,7 +133,7 @@
 
 ;; cclsは別途hookする
 (use-package ccls
-  :custom (ccls-executable "/usr/local/bin/ccls")
+  :custom (ccls-executable "/usr/bin/ccls")
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
 
@@ -147,35 +151,39 @@
     '(add-to-list 'company-backends #'company-omnisharp))
   )
 
-;(use-package elpy
-;  :init
-;  (elpy-enable)
-;  :config
-;  (setq elpy-rpc-python-command "python3")
-;  )
-
-(use-package py-autopep8
-  :hook
-  (python-mode . py-autopep8-enable-on-save)
-)
-
-
 (use-package pipenv
   :config
   ; https://github.com/jorgenschaefer/elpy/issues/1217
   (pyvenv-tracking-mode)
+  :init
   (defun pipenv-auto-activate ()
     "Set `pyvenv-activate' to the current pipenv virtualenv.
-
-This function is intended to be used in parallel with
- `pyvenv-tracking-mode'."
+     This function is intended to be used in parallel with
+      `pyvenv-tracking-mode'."
     (pipenv-deactivate)
     (pipenv--force-wait (pipenv-venv))
     (when python-shell-virtualenv-root
       (setq-local pyvenv-activate
                   (directory-file-name python-shell-virtualenv-root))
-      (setq python-shell-virtualenv-root nil)))
-  (add-hook 'elpy-mode-hook 'pipenv-auto-activate)
+      (setq-local python-shell-interpreter "pipenv")
+      (setq-local python-shell-interpreter-args "run python")
+      ))
+  :hook (elpy-mode-hook . pipenv-auto-activate)
+)
+
+(use-package elpy
+  :init
+  (elpy-enable)
+  :config
+  ; e.g. https://mako-note.com/elpy-rpc-python-version/
+  (setq elpy-rpc-python-command "python3")
+  (setq python-shell-interpreter "pipenv"
+        python-shell-interpreter-args "run python -i")
+  )
+
+(use-package py-autopep8
+  :hook
+  (python-mode . py-autopep8-enable-on-save)
 )
 
 (use-package yasnippet
@@ -370,11 +378,20 @@ This function is intended to be used in parallel with
   (aw-leading-char-face ((t (:height 3.0 :foreground "#f1fa8c"))))
   )
 
+(use-package point-undo
+  :ensure t
+  :bind (([f7] . point-undo)
+         ([M-f7] . point-redo))
+)
+
 (use-package cargo)
 
 (use-package rust-mode
   :ensure t
-  :hook (rust-mode . cargo-minor-mode))
+  :hook ((rust-mode . cargo-minor-mode)
+         )
+  :bind (("C-c C-o" . lsp-rust-analyzer-open-external-docs))
+  )
 
 ;(use-package rustic
 ;  :after (cargo)
@@ -394,4 +411,69 @@ This function is intended to be used in parallel with
    ".html?$"
    ".vue$"
   )
+  )
+
+(use-package dart-mode
+  :ensure t
+  :custom
+  (dart-format-on-save t)
+  (dart-sdk-path "~/snap/flutter/common/flutter/bin/cache/dart-sdk/"))
+
+(use-package flutter
+  :ensure t
+  :after dart-mode
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path "~/snap/flutter/common/flutter/")
+  :hook (dart-mode . (lambda ()
+                          (add-hook 'after-save-hook #'flutter-run-or-hot-reload nil t))))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+(use-package rjsx-mode
+  :mode (("\\.js\\'" . rjsx-mode))
+)
+
+; https://qiita.com/nuy/items/ebcb25ad14f02ab72790
+(use-package typescript-mode
+  :config
+  (setq typescript-indent-level 2)
+  (add-hook 'typescript-mode-hook
+          (lambda ()
+            (interactive)
+            (mmm-mode)
+            )))
+
+(use-package mmm-mode
+  :commands mmm-mode
+  :mode (("\\.tsx\\'" . typescript-mode))
+  :config
+  (setq mmm-global-mode t)
+  (setq mmm-submode-decoration-level 0)
+  (mmm-add-classes
+   '((mmm-jsx-mode
+      :submode web-mode
+      :face mmm-code-submode-face
+      :front "\\(return\s\\|n\s\\|(\n\s*\\)<"
+      :front-offset -1
+      :back ">\n?\s*)\n}\n"
+      :back-offset 1
+      )))
+  (mmm-add-mode-ext-class 'typescript-mode nil 'mmm-jsx-mode)
+
+
+  (defun mmm-reapply ()
+    (mmm-mode)
+    (mmm-mode))
+
+  (add-hook 'after-save-hook
+            (lambda ()
+              (when (string-match-p "\\.tsx?" buffer-file-name)
+                (mmm-reapply)
+                )))
   )

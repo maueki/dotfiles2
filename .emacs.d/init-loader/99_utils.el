@@ -32,3 +32,5 @@
          '(100 . 100) '(90 . 90)))))
 (global-set-key (kbd "C-c C-t") 'toggle-transparency)
 (toggle-transparency)
+
+(global-set-key (kbd "C-x I") 'imenu)

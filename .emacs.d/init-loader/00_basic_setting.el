@@ -138,6 +138,9 @@
 (load "~/.emacs.d/site-lisp/clang-format.el")
 (global-set-key (kbd "C-M-c") 'clang-format-buffer)
 
+;; cargo-atcoder-mode
+(load "~/.emacs.d/site-lisp/cargo-atcoder-mode.el")
+
 (custom-set-variables
  '(vc-follow-symlinks t) ;; symlink 開くのに警告を出さない
  )
@@ -151,3 +154,17 @@
 (add-hook 'lisp-mode-hook       'hs-minor-mode)
 (add-hook 'perl-mode-hook       'hs-minor-mode)
 (add-hook 'sh-mode-hook         'hs-minor-mode)
+
+(setq create-lockfiles nil)
+
+;; newline-without-break-of-line
+(defun newline-without-break-of-line ()
+  "1. move to end of the line.
+  2. insert newline with index"
+
+  (interactive)
+  (let ((oldpos (point)))
+    (end-of-line)
+    (newline-and-indent)))
+
+(global-set-key (kbd "C-j") 'newline-without-break-of-line)
