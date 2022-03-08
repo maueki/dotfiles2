@@ -176,6 +176,7 @@
   (elpy-enable)
   :config
   ; e.g. https://mako-note.com/elpy-rpc-python-version/
+  (setq elpy-rpc-python-command "python3")
   (setq python-shell-interpreter "pipenv"
         python-shell-interpreter-args "run python -i")
   )
