@@ -379,7 +379,6 @@
   )
 
 (use-package point-undo
-  :ensure t
   :bind (([f7] . point-undo)
          ([M-f7] . point-redo))
 )
@@ -387,7 +386,6 @@
 (use-package cargo)
 
 (use-package rust-mode
-  :ensure t
   :hook ((rust-mode . cargo-minor-mode)
          )
   :bind (("C-c C-o" . lsp-rust-analyzer-open-external-docs))
@@ -414,13 +412,11 @@
   )
 
 (use-package dart-mode
-  :ensure t
   :custom
   (dart-format-on-save t)
   (dart-sdk-path "~/snap/flutter/common/flutter/bin/cache/dart-sdk/"))
 
 (use-package flutter
-  :ensure t
   :after dart-mode
   :bind (:map dart-mode-map
               ("C-M-x" . #'flutter-run-or-hot-reload))
@@ -430,7 +426,6 @@
                           (add-hook 'after-save-hook #'flutter-run-or-hot-reload nil t))))
 
 (use-package lsp-pyright
-  :ensure t
   :hook (python-mode . (lambda ()
                           (require 'lsp-pyright)
                           (lsp))))  ; or lsp-deferred
