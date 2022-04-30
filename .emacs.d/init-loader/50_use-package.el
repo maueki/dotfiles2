@@ -1,38 +1,3 @@
-;(use-package helm
-;  :bind
-;  (("M-y" . helm-show-kill-ring)
-;   ("C-x b" . helm-for-files)
-;   ("C-x I" . helm-semantic-or-imenu)
-;   ("C-x r l" . helm-bookmarks)
-;   ("M-x" . helm-M-x)
-;   ; "C-x C-f" . helm-find-files)
-;   ("C-<f6>" . helm-ls-git-ls)
-;   ("C-x C-d" . helm-browse-project))
-;  :config
-;  (use-package helm-ls-git)
-;  (custom-set-variables
-;   '(helm-source-ls-git (helm-ls-git-build-ls-git-source))
-;   '(helm-source-ls-git-status (helm-ls-git-build-git-status-source))
-;   '(helm-for-files-preferred-list
-;     '(helm-source-buffers-list
-;       helm-source-recentf
-;       helm-source-files-in-current-dir
-;       helm-source-ls-git-status
-;       helm-source-ls-git
-;       helm-source-file-cache
-;       helm-source-locate
-;       )))
-;  (use-package helm-xref
-;    :config
-;    (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
-;)
-
-;(use-package helm-git-grep
-;  :after (helm)
-;  :bind (("<f4>" . helm-git-grep-at-point))
-;  (:map helm-map ("<f4>" . helm-git-grep-from-helm))
-;)
-
 (use-package counsel
   :after ivy
   :bind (("<f4>" . counsel-git-grep)
@@ -115,7 +80,6 @@
   :custom
   (lsp-rust-server 'rust-analyzer)
   :hook
-;  (go-mode . lsp)
   (rust-mode . lsp)
   :bind
   (:map lsp-mode-map
@@ -133,7 +97,8 @@
     :custom
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-async t)
-    (company-lsp-enable-recompletion nil)))
+    (company-lsp-enable-recompletion nil))
+  )
 
 ;; cclsは別途hookする
 (use-package ccls
@@ -387,11 +352,11 @@
          ([M-f7] . point-redo))
 )
 
-(use-package cargo)
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode)
+  )
 
 (use-package rust-mode
-  :hook ((rust-mode . cargo-minor-mode)
-         )
   :bind (("C-c C-o" . lsp-rust-analyzer-open-external-docs))
   )
 
@@ -403,7 +368,7 @@
 ;        ("C-c C-c C-t" . cargo-process-test)
 ;        )
 ;  :config
-;  (setq lsp-rust-analyzer-server-command '("~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin/rust-analyzer"))
+;  (setq lsp-rust-analyzer-server-command '("~/.local/bin/rust-analyzer"))
 ;  (setq rustic-lsp-server 'rust-analyzer)
 ;  )
 
@@ -429,10 +394,10 @@
   :hook (dart-mode . (lambda ()
                           (add-hook 'after-save-hook #'flutter-run-or-hot-reload nil t))))
 
-(use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp))))  ; or lsp-deferred
+;(use-package lsp-pyright
+;  :hook (python-mode . (lambda ()
+;                          (require 'lsp-pyright)
+;                          (lsp))))  ; or lsp-deferred
 
 (use-package rjsx-mode
   :mode (("\\.js\\'" . rjsx-mode))

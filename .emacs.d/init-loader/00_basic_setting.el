@@ -26,7 +26,7 @@
 
 (global-set-key [f1] 'help-command)
 
-(global-set-key [f3] 'helm-grep-do-git-grep)
+;(global-set-key [f3] 'helm-grep-do-git-grep)
 
 (global-font-lock-mode t)
 
