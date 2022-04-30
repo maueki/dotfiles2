@@ -63,6 +63,10 @@
 ;(when (require 'migemo nil 'noerror)
 ;  (helm-migemo-mode +1))
 
+; Avoid `symbol's value as variable is void: project-switch-commands"` in magit
+; https://www.reddit.com/r/emacs/comments/po9cfj/magit_commands_broken/
+(use-package project :straight t)
+
 (use-package magit
   :bind
   (("C-x g" . magit-status))
