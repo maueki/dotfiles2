@@ -23,7 +23,7 @@
     (cd "../../") ; cd to cargo root
     (let* ((test-name (file-name-base (buffer-file-name)))
            (cmd "cargo")
-           (args (concat "atcoder submit --bin --force " test-name))
+           (args (concat "atcoder submit --force " test-name))
            (switches (split-string-and-unquote args))
            (termbuf (apply 'make-term process-name cmd nil switches)))
       (with-current-buffer termbuf
