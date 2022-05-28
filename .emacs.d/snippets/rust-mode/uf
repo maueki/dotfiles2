@@ -2,41 +2,54 @@
 # name: uf
 # key: uf
 # --
-use std::rc::Rc;
-use std::cell::RefCell;
-
 struct UnionFind {
-    par: Rc<RefCell<Vec<usize>>>
+    par: Vec<usize>,
+    siz: Vec<usize>,
+    rank: Vec<usize>,
 }
 
 impl UnionFind {
     fn new(n: usize) -> Self {
-        let uf = UnionFind{ par: Rc::new(RefCell::new(vec![0; n])) };
+        let mut uf = UnionFind{ par: vec![0; n], rank: vec![0;n ], siz: vec![1; n] };
         for i in 0..n {
-            uf.par.borrow_mut()[i] = i;
+            uf.par[i] = i;
         }
         uf
     }
 
-    fn root(&self, x: usize) -> usize {
-        let t = self.par.borrow()[x];
+    fn root(&mut self, x: usize) -> usize {
+        let t = self.par[x];
         if  t == x {
             x
         } else {
-            self.par.borrow_mut()[x] = self.root(t);
-            self.par.borrow()[x]
+            self.par[x] = self.root(t);
+            self.par[x]
         }
     }
 
-    fn same(&self, x: usize, y: usize) -> bool {
+    fn is_same(&mut self, x: usize, y: usize) -> bool {
         self.root(x) == self.root(y)
     }
 
-    fn unite(&self, mut x: usize, mut y: usize) {
-        x = self.root(x);
-        y = self.root(y);
-        if x == y{ return }
+    fn unite(&mut self, x: usize, y: usize) -> bool {
+        let rx = self.root(x);
+        let ry = self.root(y);
+        if rx == ry { return false; }
 
-        self.par.borrow_mut()[x] = y;
+        let (rx, ry) = if self.rank[rx] < self.rank[ry] { (ry, rx) } else { (rx, ry) };
+        self.par[ry] = rx;
+
+        if self.rank[rx] == self.rank[ry] {
+            self.rank[rx] += 1;
+        }
+
+        self.siz[rx] += self.siz[ry];
+
+        true
+    }
+
+    fn size(&mut self, x: usize) -> usize {
+        let rx = self.root(x);
+        self.siz[rx]
     }
 }
