@@ -1,7 +1,7 @@
 pub trait BinarySearch<T> {
-    fn lower_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, mut f: F) -> usize;
+    fn lower_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, f: F) -> usize;
     fn lower_bound(&self, x: &T) -> usize;
-    fn upper_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, mut f: F) -> usize;
+    fn upper_bound_by_key<B: Ord, F: FnMut(&T) -> B>(&self, x: &T, f: F) -> usize;
     fn upper_bound(&self, x: &T) -> usize;
 }
 
