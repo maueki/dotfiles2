@@ -1,0 +1,142 @@
+
+mod modint {
+    use std::marker::PhantomData;
+    use std::ops;
+    use std::fmt;
+
+    pub trait Modulus: PartialEq + Eq {
+        fn modulus() -> usize;
+    }
+
+    #[derive(Clone, Copy, PartialEq, Eq, Debug)]
+    pub enum Mod1000000007 {}
+
+    impl Modulus for Mod1000000007 {
+        fn modulus() -> usize {
+            1000000007
+        }
+    }
+
+    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+    pub struct ModInt<M: Modulus> {
+        val: usize,
+        _marker: PhantomData<fn() -> M>,
+    }
+
+    impl<M: Modulus> fmt::Display for ModInt<M> {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            write!(f, "{}", self.val)
+        }
+    }
+
+    impl<M: Modulus> ModInt<M> {
+
+        pub fn new(val: usize) -> Self {
+            Self{val: val % M::modulus(), _marker: PhantomData}
+        }
+
+        pub fn modulus(&self) -> usize {
+            M::modulus()
+        }
+
+        pub fn val(&self) -> usize {
+            self.val % M::modulus()
+        }
+
+        pub fn pow_u(&self, n: usize) -> Self {
+            let mut val = self.val;
+            let mut res: usize = 1;
+            let mut n = n;
+            while n > 0 {
+                if n % 2 == 1 { res = (res * val) % M::modulus(); }
+                val = (val * val) % M::modulus();
+                n /= 2;
+            }
+            Self { val: res, _marker: PhantomData }
+        }
+
+        pub fn pow(&self, other: Self) -> Self {
+            self.pow_u(other.val)
+        }
+
+        pub fn inv(&self) -> Self {
+            self.pow_u(M::modulus() - 2)
+        }
+    }
+
+    impl<M:Modulus> From<isize> for ModInt<M> {
+        fn from(item: isize) -> Self {
+            let mut item = item;
+            let modu = M::modulus() as isize;
+            if item < 0 {
+                item += (-(item / modu) + 1) * modu;
+            }
+
+            Self::new(item as usize)
+        }
+    }
+
+/*    impl<M:Modulus> From<usize> for ModInt<M> {
+        fn from(item: usize) -> Self {
+            Self::new(item)
+        }
+    }*/
+
+    impl<M: Modulus> ops::Add for ModInt<M> {
+        type Output = Self;
+        fn add(self, other: Self) -> Self {
+            Self{ val: (self.val + other.val) % M::modulus(), _marker: PhantomData}
+        }
+    }
+
+    impl<M: Modulus> ops::AddAssign for ModInt<M> {
+        fn add_assign(&mut self, other: Self) {
+            *self = Self {val: (self.val + other.val) % M::modulus(), _marker: PhantomData};
+        }
+    }
+
+    impl<M: Modulus> ops::Mul for ModInt<M> {
+        type Output = Self;
+        fn mul(self, other: Self) -> Self {
+            Self {val: (self.val * other.val) % M::modulus(), _marker: PhantomData}
+        }
+    }
+
+    impl<M: Modulus> ops::MulAssign for ModInt<M> {
+        fn mul_assign(&mut self, other: Self) {
+            *self = Self { val: (self.val * other.val) % M::modulus(), _marker: PhantomData}
+        }
+    }
+
+    impl<M: Modulus> ops::Sub for ModInt<M> {
+        type Output = Self;
+        fn sub(mut self, other: Self) -> Self {
+            Self { val: (self.val + M::modulus() - other.val) % M::modulus(),
+                   _marker: PhantomData }
+        }
+    }
+
+    impl<M: Modulus> ops::SubAssign for ModInt<M> {
+        fn sub_assign(&mut self, other: Self) {
+            *self = Self { val: (self.val + M::modulus() - other.val) % M::modulus(),
+                           _marker: PhantomData };
+        }
+    }
+
+    impl<M: Modulus> ops::Div for ModInt<M> {
+        type Output = Self;
+        fn div(self, other: Self) -> Self {
+            self * other.inv()
+        }
+    }
+
+    impl<M: Modulus> ops::DivAssign for ModInt<M> {
+        fn div_assign(&mut self, other: Self) {
+            *self *= other.inv();
+        }
+    }
+
+    pub type ModInt1000000007 = ModInt<Mod1000000007>;
+}
+
+use modint::*;
