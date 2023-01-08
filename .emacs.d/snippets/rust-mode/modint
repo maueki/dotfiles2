@@ -3,6 +3,7 @@ mod modint {
     use std::marker::PhantomData;
     use std::ops;
     use std::fmt;
+    use num::traits::PrimInt;
 
     pub trait Modulus: PartialEq + Eq {
         fn modulus() -> usize;
@@ -31,8 +32,14 @@ mod modint {
 
     impl<M: Modulus> ModInt<M> {
 
-        pub fn new(val: usize) -> Self {
-            Self{val: val % M::modulus(), _marker: PhantomData}
+        pub fn new<T: PrimInt> (val: T) -> Self {
+            let mut val = val.to_isize().unwrap();
+            let modu = M::modulus() as isize;
+            if val < 0 {
+                val += (-(val / modu) + 1) * modu;
+            }
+
+            Self{val: val as usize % M::modulus(), _marker: PhantomData}
         }
 
         pub fn modulus(&self) -> usize {
@@ -64,74 +71,70 @@ mod modint {
         }
     }
 
-    impl<M:Modulus> From<isize> for ModInt<M> {
-        fn from(item: isize) -> Self {
-            let mut item = item;
-            let modu = M::modulus() as isize;
-            if item < 0 {
-                item += (-(item / modu) + 1) * modu;
-            }
-
-            Self::new(item as usize)
+    impl<M:Modulus, T: PrimInt> From<T> for ModInt<M> {
+        fn from(item: T) -> Self {
+            Self::new(item)
         }
     }
 
-/*    impl<M:Modulus> From<usize> for ModInt<M> {
-        fn from(item: usize) -> Self {
-            Self::new(item)
-        }
-    }*/
-
-    impl<M: Modulus> ops::Add for ModInt<M> {
+    impl<M: Modulus, Rhs> ops::Add<Rhs> for ModInt<M> where Rhs: Into<Self> {
         type Output = Self;
-        fn add(self, other: Self) -> Self {
+        fn add(self, other: Rhs) -> Self {
+            let other = other.into();
             Self{ val: (self.val + other.val) % M::modulus(), _marker: PhantomData}
         }
     }
 
-    impl<M: Modulus> ops::AddAssign for ModInt<M> {
-        fn add_assign(&mut self, other: Self) {
+    impl<M: Modulus, Rhs> ops::AddAssign<Rhs> for ModInt<M> where Rhs: Into<Self> {
+        fn add_assign(&mut self, other: Rhs) {
+            let other = other.into();
             *self = Self {val: (self.val + other.val) % M::modulus(), _marker: PhantomData};
         }
     }
 
-    impl<M: Modulus> ops::Mul for ModInt<M> {
+    impl<M: Modulus, Rhs> ops::Mul<Rhs> for ModInt<M> where Rhs: Into<Self> {
         type Output = Self;
-        fn mul(self, other: Self) -> Self {
+        fn mul(self, other: Rhs) -> Self {
+            let other = other.into();
             Self {val: (self.val * other.val) % M::modulus(), _marker: PhantomData}
         }
     }
 
-    impl<M: Modulus> ops::MulAssign for ModInt<M> {
-        fn mul_assign(&mut self, other: Self) {
+    impl<M: Modulus, Rhs> ops::MulAssign<Rhs> for ModInt<M> where Rhs: Into<Self> {
+        fn mul_assign(&mut self, other: Rhs) {
+            let other = other.into();
             *self = Self { val: (self.val * other.val) % M::modulus(), _marker: PhantomData}
         }
     }
 
-    impl<M: Modulus> ops::Sub for ModInt<M> {
+    impl<M: Modulus, Rhs> ops::Sub<Rhs> for ModInt<M> where Rhs: Into<Self> {
         type Output = Self;
-        fn sub(mut self, other: Self) -> Self {
+        fn sub(mut self, other: Rhs) -> Self {
+            let other = other.into();
             Self { val: (self.val + M::modulus() - other.val) % M::modulus(),
                    _marker: PhantomData }
         }
     }
 
-    impl<M: Modulus> ops::SubAssign for ModInt<M> {
-        fn sub_assign(&mut self, other: Self) {
+    impl<M: Modulus, Rhs> ops::SubAssign<Rhs> for ModInt<M> where Rhs: Into<Self> {
+        fn sub_assign(&mut self, other: Rhs) {
+            let other = other.into();
             *self = Self { val: (self.val + M::modulus() - other.val) % M::modulus(),
                            _marker: PhantomData };
         }
     }
 
-    impl<M: Modulus> ops::Div for ModInt<M> {
+    impl<M: Modulus, Rhs> ops::Div<Rhs> for ModInt<M> where Rhs: Into<Self> {
         type Output = Self;
-        fn div(self, other: Self) -> Self {
+        fn div(self, other: Rhs) -> Self {
+            let other = other.into();
             self * other.inv()
         }
     }
 
-    impl<M: Modulus> ops::DivAssign for ModInt<M> {
-        fn div_assign(&mut self, other: Self) {
+    impl<M: Modulus, Rhs> ops::DivAssign<Rhs> for ModInt<M> where Rhs: Into<Self> {
+        fn div_assign(&mut self, other: Rhs) {
+            let other = other.into();
             *self *= other.inv();
         }
     }

@@ -7,18 +7,18 @@ fn modint_test() {
     {
         let mut m = MI::new(1000000006);
         assert_eq!(1000000006, m.val());
-        m += 1.into();
+        m += 1;
         assert_eq!(0, m.val());
     }
 
     {
-        let m = MI::from(-1);
+        let m = MI::new(-1);
         assert_eq!(1000000006, m.val());
     }
 
     {
-        let m1 = MI::from(1);
-        let m2 = MI::from(1);
+        let m1 = MI::new(1);
+        let m2 = MI::new(1);
         assert_eq!(m1, m2);
     }
 }
@@ -35,8 +35,8 @@ fn modint_tessoku_a76_test() {
     let xs = [&[0], xs.as_slice(), &[w]].concat();
 
     let mut v = vec![MI::new(0); n+4];
-    v[0] = 1.into();
-    v[1] = MI::from(-1);
+    v[0] = MI::new(1);
+    v[1] = MI::new(-1);
 
     let mut s = MI::new(0);
 
@@ -67,7 +67,7 @@ fn modint_mod7_test() {
 
     {
         let mut v = MI::new(3);
-        v *= MI::new(3);
+        v *= 3;
         assert_eq!(v.val(), 2);
     }
 
