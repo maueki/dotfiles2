@@ -1,0 +1,5 @@
+// 'a' -> 1, 'z' -> 26
+fn chi(c: char) -> usize {
+    assert!(c as usize >= 'a' as usize);
+    c as usize - 'a' as usize + 1
+}
