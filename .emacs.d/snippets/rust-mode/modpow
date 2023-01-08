@@ -1,0 +1,9 @@
+fn modpow(n: usize, exp: usize, modulus: usize) -> usize {
+    use num::BigInt;
+    use num::ToPrimitive;
+    let n = BigInt::from(n);
+    let exp = BigInt::from(exp);
+    let modulus = BigInt::from(modulus);
+
+    n.modpow(&exp, &modulus).to_usize().unwrap()
+}

@@ -1,0 +1,12 @@
+let mut map = HashMap::new();
+for &(u,v) in uvs.iter() {
+    {
+        let entry = map.entry(u).or_insert(Vec::new());
+        entry.push(v);
+    }
+
+    {
+        let entry = map.entry(v).or_insert(Vec::new());
+        entry.push(u);
+    }
+}

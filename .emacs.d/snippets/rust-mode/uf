@@ -1,7 +1,3 @@
-# -*- mode: snippet -*-
-# name: uf
-# key: uf
-# --
 struct UnionFind {
     par: Vec<usize>,
     siz: Vec<usize>,
