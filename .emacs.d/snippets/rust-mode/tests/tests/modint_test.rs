@@ -52,6 +52,25 @@ fn modint_tessoku_a76_test() {
     assert_eq!(7, s.val());
 }
 
+#[test]
+fn modint_tessoku_b29_test() {
+    type MI = ModInt1000000007;
+    let mi = MI::new;
+
+    let a = mi(123456789);
+
+    assert_eq!(mi(3599437), a.pow_u(123456789012345678));
+}
+
+#[test]
+fn modint_tessoku_b30_test() {
+    type MI = ModInt1000000007;
+    let mi = MI::new;
+
+    assert_eq!(mi(223713395), comb::<Mod1000000007>(869+120-2, 120-1));
+}
+
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Mod7 {}
 

@@ -139,6 +139,15 @@ mod modint {
         }
     }
 
+    pub fn comb<M: Modulus>(n: usize, r: usize) -> ModInt<M> {
+        let mi = ModInt::<M>::new;
+        if r > n {
+            mi(0)
+        } else {
+            (1..=r).fold(mi(1), |acc, val| acc * (mi(n) - mi(val) + mi(1)) / mi(val))
+        }
+    }
+
     pub type ModInt1000000007 = ModInt<Mod1000000007>;
 }
 

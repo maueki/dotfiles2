@@ -1,7 +1,3 @@
-# -*- mode: snippet -*-
-# name: scombi
-# key: scombi
-# --
 const FACT_MAX: usize = 300000;
 const MOD: i64 = 998244353;
 
