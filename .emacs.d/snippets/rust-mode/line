@@ -1,0 +1,33 @@
+mod mod_line_coefficients {
+
+    use num::rational::Ratio;
+    use num::traits::PrimInt;
+
+    // return (1,b/a,c/a) from ax + by + c = 0
+    // if a == 0 then return (0, 1, c/b)
+    pub fn line_coefficients<T: PrimInt>(
+        x1: T,
+        y1: T,
+        x2: T,
+        y2: T,
+    ) -> (Ratio<i128>, Ratio<i128>, Ratio<i128>) {
+        assert!((x1, y1) != (x2, y2));
+
+        let x1 = Ratio::new(x1.to_i128().unwrap(), 1);
+        let y1 = Ratio::new(y1.to_i128().unwrap(), 1);
+        let x2 = Ratio::new(x2.to_i128().unwrap(), 1);
+        let y2 = Ratio::new(y2.to_i128().unwrap(), 1);
+
+        let a = y2 - y1;
+        let b = x1 - x2;
+        let c = -(x1 * a + y1 * b);
+
+        if a == 0.into() {
+            (0.into(), 1.into(), c / b)
+        } else {
+            (1.into(), b / a, c / a)
+        }
+    }
+}
+
+use mod_line_coefficients::*;
