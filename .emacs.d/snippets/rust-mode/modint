@@ -18,6 +18,15 @@ mod modint {
         }
     }
 
+    #[derive(Clone, Copy, PartialEq, Eq, Debug)]
+    pub enum Mod998244353 {}
+
+    impl Modulus for Mod998244353 {
+        fn modulus() -> usize {
+            998244353
+        }
+    }
+
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub struct ModInt<M: Modulus> {
         val: usize,
@@ -149,6 +158,7 @@ mod modint {
     }
 
     pub type ModInt1000000007 = ModInt<Mod1000000007>;
+    pub type ModInt998244353 = ModInt<Mod998244353>;
 }
 
 use modint::*;

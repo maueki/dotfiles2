@@ -1,0 +1,36 @@
+mod modfrac {
+    use std::cmp::{PartialOrd, Ord, Ordering};
+
+    #[derive(Clone, Copy, Debug)]
+    pub struct Frac {
+        p: isize,
+        q: isize
+    }
+
+    impl Frac {
+        pub fn new(p: isize, q: isize) -> Self {
+            Frac{p, q}
+        }
+    }
+
+    impl PartialEq for Frac {
+        fn eq(&self, other: &Self) -> bool {
+            self.p * other.q == other.p * self.q
+        }
+    }
+    impl Eq for Frac {}
+
+    impl PartialOrd for Frac {
+        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            Some((self.p * other.q).cmp(&(other.p * self.q)))
+        }
+    }
+
+    impl Ord for Frac {
+        fn cmp(&self, other: &Self) -> Ordering {
+            self.partial_cmp(other).unwrap()
+        }
+    }
+}
+
+use modfrac::*;

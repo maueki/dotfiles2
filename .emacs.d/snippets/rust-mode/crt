@@ -1,0 +1,100 @@
+mod mod_crt {
+    use std::mem::swap;
+
+    fn safe_mod(mut x: i64, m: i64) -> i64 {
+        x %= m;
+        if x < 0 {
+            x += m;
+        }
+        x
+    }
+
+    #[allow(clippy::many_single_char_names)]
+    fn inv_gcd(a: i64, b: i64) -> (i64, i64) {
+        let a = safe_mod(a, b);
+        if a == 0 {
+            return (b, 0);
+        }
+
+        // Contracts:
+        // [1] s - m0 * a = 0 (mod b)
+        // [2] t - m1 * a = 0 (mod b)
+        // [3] s * |m1| + t * |m0| <= b
+        let mut s = b;
+        let mut t = a;
+        let mut m0 = 0;
+        let mut m1 = 1;
+
+        while t != 0 {
+            let u = s / t;
+            s -= t * u;
+            m0 -= m1 * u; // |m1 * u| <= |m1| * s <= b
+
+            // [3]:
+            // (s - t * u) * |m1| + t * |m0 - m1 * u|
+            // <= s * |m1| - t * u * |m1| + t * (|m0| + |m1| * u)
+            // = s * |m1| + t * |m0| <= b
+
+            swap(&mut s, &mut t);
+            swap(&mut m0, &mut m1);
+        }
+        // by [3]: |m0| <= b/g
+        // by g != b: |m0| < b/g
+        if m0 < 0 {
+            m0 += b / s;
+        }
+        (s, m0)
+    }
+
+    pub fn crt(r: &[i64], m: &[i64]) -> (i64, i64) {
+        assert_eq!(r.len(), m.len());
+        // Contracts: 0 <= r0 < m0
+        let (mut r0, mut m0) = (0, 1);
+        for (&(mut ri), &(mut mi)) in r.iter().zip(m.iter()) {
+            assert!(1 <= mi);
+            ri = safe_mod(ri, mi);
+            if m0 < mi {
+                swap(&mut r0, &mut ri);
+                swap(&mut m0, &mut mi);
+            }
+            if m0 % mi == 0 {
+                if r0 % mi != ri {
+                    return (0, 0);
+                }
+                continue;
+            }
+            // assume: m0 > mi, lcm(m0, mi) >= 2 * max(m0, mi)
+
+            // (r0, m0), (ri, mi) -> (r2, m2 = lcm(m0, m1));
+            // r2 % m0 = r0
+            // r2 % mi = ri
+            // -> (r0 + x*m0) % mi = ri
+            // -> x*u0*g % (u1*g) = (ri - r0) (u0*g = m0, u1*g = mi)
+            // -> x = (ri - r0) / g * inv(u0) (mod u1)
+
+            // im = inv(u0) (mod u1) (0 <= im < u1)
+            let (g, im) = inv_gcd(m0, mi);
+            let u1 = mi / g;
+            // |ri - r0| < (m0 + mi) <= lcm(m0, mi)
+            if (ri - r0) % g != 0 {
+                return (0, 0);
+            }
+            // u1 * u1 <= mi * mi / g / g <= m0 * mi / g = lcm(m0, mi)
+            let x = (ri - r0) / g % u1 * im % u1;
+
+            // |r0| + |m0 * x|
+            // < m0 + m0 * (u1 - 1)
+            // = m0 + m0 * mi / g - m0
+            // = lcm(m0, mi)
+            r0 += x * m0;
+            m0 *= u1; // -> lcm(m0, mi)
+            if r0 < 0 {
+                r0 += m0
+            };
+        }
+
+        (r0, m0)
+    }
+}
+
+use mod_crt::*;

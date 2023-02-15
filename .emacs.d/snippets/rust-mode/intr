@@ -1,0 +1,4 @@
+    // NOTE: #[fastout]は消すこと
+    let stdin = std::io::stdin();
+    let mut source = proconio::source::line::LineSource::new(stdin.lock());
+    // input!{from &mut source, n: usize}
