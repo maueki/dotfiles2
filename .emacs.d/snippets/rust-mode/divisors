@@ -1,0 +1,19 @@
+// 約数列挙
+mod mod_divisors {
+    use std::collections::HashSet;
+
+    pub fn divisors(x: usize) -> HashSet<usize> {
+        let sqrt = num::integer::sqrt(x);
+        let mut set = HashSet::new();
+        for i in 1..=sqrt {
+            if x % i == 0 {
+                set.insert(i);
+                set.insert(x/i);
+            }
+        }
+
+        set
+    }
+}
+
+use mod_divisors::*;

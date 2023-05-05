@@ -1,0 +1,38 @@
+mod mod_bit {
+    pub struct Bit {
+        n: usize,
+        bit: Vec<usize>
+    }
+
+    impl Bit {
+        pub fn new(n: usize) -> Self {
+            let mut nn = 1;
+            while nn < n {
+                nn *= 2;
+            }
+
+            Bit {n: nn, bit: vec![0; nn+1]}
+        }
+
+        pub fn sum(&mut self, i: usize) -> usize {
+            let mut s = 0;
+            let mut i = i as isize;
+            while i > 0 {
+                s += self.bit[i as usize];
+                i -= i & -i;
+            }
+
+            s
+        }
+
+        pub fn add(&mut self, i: usize, x: usize) {
+            let mut i = i as isize;
+            while i <= self.n as isize {
+                self.bit[i as usize] += x;
+                i += i & -i;
+            }
+        }
+    }
+}
+
+use mod_bit::*;

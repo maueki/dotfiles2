@@ -1,35 +1,4 @@
-
-struct Bit {
-    n: usize,
-    tree: Vec<usize>
-}
-
-impl Bit {
-    fn new(n: usize) -> Self {
-        Bit {
-            n,
-            tree: vec![0; n+1]
-        }
-    }
-
-    fn sum(&self, i: usize) -> usize {
-        let mut i = i as isize;
-        let mut s = 0;
-        while i > 0 {
-            s += self.tree[i as usize];
-            i -= i & -i;
-        }
-        s
-    }
-
-    fn add(&mut self, i: usize, x: usize) {
-        let mut i = i as isize;
-        while i <= self.n as isize {
-            self.tree[i as usize] += x;
-            i += i & -i;
-        }
-    }
-}
+include!("../../bit");
 
 #[test]
 fn bit_test() {

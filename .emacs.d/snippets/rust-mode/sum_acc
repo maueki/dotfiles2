@@ -1,0 +1,18 @@
+mod sum_acc_mod {
+    use std::ops::AddAssign;
+    pub fn sum_acc<T>(v: &[T]) -> Vec<T> 
+        where T: AddAssign + Copy + Default,
+    {
+        let mut acc = Vec::new();
+        let mut sum = T::default();
+        acc.push(sum);
+        for &x in v.iter() {
+            sum += x;
+            acc.push(sum);
+        }
+
+        acc
+    }
+}
+
+use sum_acc_mod::*;
