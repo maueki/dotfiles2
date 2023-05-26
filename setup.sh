@@ -2,7 +2,7 @@
 
 DOTFILES_DIR=`pwd`
 
-DOT_FILES=( .zsh .zshrc .tmux.conf .emacs.d .ctags .globalrc .zprofile )
+DOT_FILES=( .zshenv .zsh .zshrc .tmux.conf .emacs.d .zprofile )
 
 for file in ${DOT_FILES[@]}
 do
@@ -12,7 +12,3 @@ do
         ln -s $DOTFILES_DIR/$file $HOME/$file
     fi
 done
-
-if [[ ! -e $HOME/.zsh/zaw ]]; then
-  git clone https://github.com/zsh-users/zaw.git $HOME/.zsh/zaw
-fi

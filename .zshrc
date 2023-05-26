@@ -1,209 +1,117 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-#PRONPT
-PS1="[@${HOST%%.*} %1~]%(!.#.$) "
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
-#RPROMPT="%T"                      # 右側に時間を表示する
-setopt transient_rprompt          # 右側まで入力がきたら時間を消す
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="crcandy"
 
-autoload -U compinit
-compinit
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-HISTFILE=~/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-export TERM=xterm-256color
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-bindkey -e
-bindkey '^W' kill-region
-# 複数の zsh を同時に使う時など history ファイルに上書きせず追加
-setopt append_history
-# シェルのプロセスごとに履歴を共有
-setopt share_history
-# 履歴ファイルに時刻を記録
-setopt extended_history
-# history (fc -l) コマンドをヒストリリストから取り除く。
-setopt hist_no_store
-# 直前と同じコマンドラインはヒストリに追加しない
-setopt hist_ignore_dups
-# 重複したヒストリは追加しない
-setopt hist_ignore_all_dups
-# incremental append
-setopt inc_append_history
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
-# ディレクトリ名だけで､ディレクトリの移動をする｡
-setopt auto_cd
-# cdのタイミングで自動的にpushd
-setopt auto_pushd
-setopt pushd_ignore_dups
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
 
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
-# 補完候補が複数ある時に、一覧表示
-setopt auto_list
-# 補完キー（Tab, Ctrl+I) を連打するだけで順に補完候補を自動で補完
-setopt auto_menu
-# ファイル名で #, ~, ^ の 3 文字を正規表現として扱う
-setopt extended_glob
-# C-s, C-qを無効にする。
-setopt NO_flow_control
-# 8 ビット目を通すようになり、日本語のファイル名を表示可能
-setopt print_eight_bit
-# カッコの対応などを自動的に補完
-setopt auto_param_keys
-# ディレクトリ名の補完で末尾の / を自動的に付加し、次の補完に備える
-setopt auto_param_slash
-# 最後がディレクトリ名で終わっている場合末尾の / を自動的に取り除く
-setopt auto_remove_slash
-# {a-c} を a b c に展開する機能を使えるようにする
-setopt brace_ccl
-# コマンドのスペルチェックをする
-setopt correct
-# =command を command のパス名に展開する
-setopt equals
-# シェルが終了しても裏ジョブに HUP シグナルを送らないようにする
-setopt NO_hup
-# Ctrl+D では終了しないようになる（exit, logout などを使う）
-setopt ignore_eof
-# コマンドラインでも # 以降をコメントと見なす
-setopt interactive_comments
-# auto_list の補完候補一覧で、ls -F のようにファイルの種別をマーク表示しない
-setopt list_types
-# 内部コマンド jobs の出力をデフォルトで jobs -l にする
-setopt long_list_jobs
-# コマンドラインの引数で --prefix=/usr などの = 以降でも補完できる
-setopt magic_equal_subst
-# ファイル名の展開でディレクトリにマッチした場合末尾に / を付加する
-setopt mark_dirs
-# 複数のリダイレクトやパイプなど、必要に応じて tee や cat の機能が使われる
-setopt multios
-# ファイル名の展開で、辞書順ではなく数値的にソートされるようになる
-setopt numeric_glob_sort
-# for, repeat, select, if, function などで簡略文法が使えるようになる
-setopt short_loops
-#コピペの時rpromptを非表示する
-setopt transient_rprompt
-# 文字列末尾に改行コードが無い場合でも表示する
-unsetopt promptcr
-# リダイレクトでファイルを消さない
-setopt no_clobber
-# 補完候補をpack
-setopt list_packed
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-# すごいプロンプト
-setopt prompt_subst
-autoload -U colors; colors
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-#ターミナルのタイトル設定
-case "${TERM}" in
-mlterm|kterm*|xterm*)
-    titlechange(){
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-    ;;
-screen*)
-    titlechange(){
-	echo -ne "\033P\033]0;${USER}@${HOST%%.*}:${PWD}\007\033\\"
-    }
-    ;;
-*)
-    titlechange(){
-    }
-    ;;
-esac
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
 
-# 履歴検索設定
-autoload history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
 
-# エイリアスいろいろ
-alias du="du -h"
-alias df="df -h"
-alias su="su -l"
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-alias gitlog="git log --oneline --graph --decorate"
- 
-# LS_COLORSを設定しておく
-export LS_COLORS='di=01;34:ln=01;35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
 
-if [[ ${OSTYPE} != darwin* ]] then
-  alias ls="ls --color"
-  alias la="ls --color -a"
-  alias lf="ls --color -F"
-  alias ll="ls --color -l"
-fi
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
-#alias gls="gls --color"
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions zaw docker docker-compose)
 
-zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34'
-
-# ブランチ名表示
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' formats '(%s)-[%b]'
-zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-repinfo(){
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-}
-
-
-precmd () {
-    repinfo
-    titlechange
-}
-RPROMPT="%1(v|%F{green}%1v%f|)"
-
-export ANDROID_SDK_ROOT=$HOME/opt/android
-export PATH=$PATH:$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$HOME/opt/play:$HOME/opt/bin:$HOME/opt/scala/bin:$HOME/opt/android/tools:/usr/local/bin:$HOME/.nave
-
-if [[ ${OSTYPE} == darwin* ]] then
-  alias emacs="/usr/local/bin/emacs"
-else
-  alias emacs="TERM=screen-256color emacs25 -nw"
-fi
-
-cheat-sheet () { zle -M "`cat ~/.zsh/cheatsheets/cheat-sheet.conf`" }
-zle -N cheat-sheet
-bindkey "^[^h" cheat-sheet
-
-git-cheat () { zle -M "`cat ~/.zsh/cheatsheets/git-cheat.conf`" }
-zle -N git-cheat
-bindkey "^[^g" git-cheat
-
-screen-cheat () { zle -M "`cat ~/.zsh/cheatsheets/screen-cheat.conf`" }
-zle -N screen-cheat
-bindkey "^[^s" screen-cheat
-
-tmux-cheat () { zle -M "`cat ~/.zsh/cheatsheets/tmux-cheat.conf`" }
-zle -N tmux-cheat
-bindkey "^[^t" tmux-cheat
-
-gitlog-cheat() { zle -M "`gitlog --all`"}
-zle -N gitlog-cheat
-bindkey "^[^l" gitlog-cheat
-
-export GPG_TTY=`tty`
-
+# oh-my-zsh有効化の前にcdrを有効にしないとzaw-cdrが使用できない
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
-zstyle ':chpwd:*' recent-dirs-max 5000
-zstyle ':chpwd:*' recent-dirs-default yes
-zstyle ':completion:*' recent-dirs-insert both
 
-source $HOME/.zsh/zaw/zaw.zsh
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
 bindkey '^xb' zaw-cdr
 bindkey '^r' zaw-history
 bindkey '^x^f' zaw-git-files
 bindkey '^x^p' zaw-process
 bindkey '^x^b' zaw-git-branches
 
-source $HOME/.zsh/behind-window-notify/behind-window-notify.zsh
-
 # for asdf
 source $HOME/.asdf/asdf.sh
 
 # starship
 eval "$(starship init zsh)"
+
