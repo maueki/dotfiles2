@@ -201,3 +201,9 @@ bindkey '^x^p' zaw-process
 bindkey '^x^b' zaw-git-branches
 
 source $HOME/.zsh/behind-window-notify/behind-window-notify.zsh
+
+# for asdf
+source $HOME/.asdf/asdf.sh
+
+# starship
+eval "$(starship init zsh)"
