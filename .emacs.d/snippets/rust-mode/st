@@ -1,7 +1,3 @@
-# -*- mode: snippet -*-
-# name: st
-# key: st
-# --
 #[derive(Debug)]
 struct SegTree<T> {
     n: usize,
@@ -26,6 +22,12 @@ impl<T: Copy> SegTree<T> {
             dat: vec![init; nn*2-1],
             op,
         }
+    }
+
+    pub fn get(&self, k: usize) -> T {
+        let mut k = k;
+        k += self.n - 1;
+        self.dat[k]
     }
 
     // k番目の値をaに変更
