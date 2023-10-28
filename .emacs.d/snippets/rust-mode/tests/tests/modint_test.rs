@@ -1,9 +1,8 @@
 
-include!("../../modint");
+use ac_library::ModInt1000000007 as MI;
 
 #[test]
 fn modint_test() {
-    type MI = ModInt1000000007;
     {
         let mut m = MI::new(1000000006);
         assert_eq!(1000000006, m.val());
@@ -30,8 +29,6 @@ fn modint_tessoku_a76_test() {
     let (n, w, l, r) = (5, 65, 7, 37);
     let xs = vec![5, 15, 30, 50, 55];
 
-    type MI = ModInt1000000007;
-
     let xs = [&[0], xs.as_slice(), &[w]].concat();
 
     let mut v = vec![MI::new(0); n+4];
@@ -54,45 +51,16 @@ fn modint_tessoku_a76_test() {
 
 #[test]
 fn modint_tessoku_b29_test() {
-    type MI = ModInt1000000007;
     let mi = MI::new;
 
     let a = mi(123456789);
 
-    assert_eq!(mi(3599437), a.pow_u(123456789012345678));
+    assert_eq!(mi(3599437), a.pow(123456789012345678));
 }
 
-#[test]
-fn modint_tessoku_b30_test() {
-    type MI = ModInt1000000007;
-    let mi = MI::new;
-
-    assert_eq!(mi(223713395), comb::<Mod1000000007>(869+120-2, 120-1));
-}
-
-
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub enum Mod7 {}
-
-impl Modulus for Mod7 {
-    fn modulus() -> usize {
-        7
-    }
-}
-
-#[test]
-fn modint_mod7_test() {
-    type MI = ModInt<Mod7>;
-
-    {
-        let mut v = MI::new(3);
-        v *= 3;
-        assert_eq!(v.val(), 2);
-    }
-
-    {
-        let mut v = MI::new(2);
-        assert_eq!(v.inv().val(), 4); // (2 ^ (7-2)) % 7
-    }
-
-}
+//#[test]
+//fn modint_tessoku_b30_test() {
+//    let mi = MI::new;
+//
+//    assert_eq!(mi(223713395), comb::<Mod1000000007>(869+120-2, 120-1));
+//}

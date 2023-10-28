@@ -1,51 +1,53 @@
-const FACT_MAX: usize = 300000;
-const MOD: i64 = 998244353;
+mod mod_comb {
 
-#[allow(dead_code)]
-fn pow_mod(base: i64, power: i64, modulo: i64) -> i64 {
-    let mut base = base;
-    let mut power = power;
-    let mut ans = 1;
-    while power > 0 {
-        if power & 1 == 1 {
-            ans = ans * base % modulo;
-        }
-        power >>= 1;
-        base = base * base % modulo;
-    }
-    ans
-}
+pub const FACT_MAX: usize = 400000;
+pub const MODULUS: u32 = 998244353;
+
+pub use ac_library::ModInt as Mint;
 
 thread_local! {
     #[allow(unused)]
-    pub static FACT: Vec<i64> = {
-        let mut fac: Vec<i64> = vec![1; FACT_MAX+1];
+    pub static FACT: Vec<Mint> = {
+        let mut fac: Vec<Mint> = vec![Mint::new(1); FACT_MAX+1];
 
         for i in 1..FACT_MAX+1 {
-            fac[i] = (fac[i-1] * i as i64) as i64 % MOD;
+            fac[i] = fac[i-1] * i;
         }
         fac
     };
 
     #[allow(unused)]
-    pub static RFACT: Vec<i64> = {
-        let mut rfac = vec![1; FACT_MAX+1];
+    pub static RFACT: Vec<Mint> = {
+        let mut rfac = vec![Mint::new(1); FACT_MAX+1];
         rfac[FACT_MAX] = FACT.with(|fact| {
-            pow_mod(fact[FACT_MAX], MOD-2, MOD)
+            fact[FACT_MAX].pow(MODULUS as u64 -2)
         });
 
         for i in (1..FACT_MAX).rev() {
-            rfac[i] = (rfac[i+1] * (i+1) as i64) % MOD;
+            rfac[i] = rfac[i+1] * (i+1);
         }
         rfac
     }
 }
 
 #[allow(dead_code)]
-fn combi(n: usize, m: usize) -> i64 {
+pub fn comb(n: Mint, m: Mint) -> Mint {
+    let n = n.val() as usize;
+    let m = m.val() as usize;
+    assert!(n >= m);
+    comb_raw(n, m)
+}
+
+pub fn comb_raw(n: usize, m: usize) -> Mint {
+    assert!(n >= m);
     FACT.with(|fact| {
         RFACT.with( |rfact| {
-            fact[n] * rfact[n-m] % MOD * rfact[m] % MOD
+            fact[n] * rfact[n-m] * rfact[m]
         })
     })
 }
+
+}
+
+use mod_comb::*;
+// TODO: call Mint::set_modulus(MODULUS)
