@@ -92,6 +92,9 @@
   (use-package lsp-ui
     :custom
     (lsp-ui-doc-position 'bottom)
+    (lsp-ui-doc-show-with-cursor 't)
+    (lsp-ui-doc-max-height 20)
+    :bind (("C-c z" . lsp-ui-doc-focus-frame))
     )
   ;; Lsp completion
   (use-package company-lsp
