@@ -1,0 +1,76 @@
+
+mod mod_cht {
+
+#[allow(dead_code)]
+pub type Line = (i64, i64);
+
+#[allow(dead_code)]
+pub struct ConvexHullTrick {
+    lines: std::collections::VecDeque<Line>,
+    comp: Box<dyn Fn(i64, i64) -> bool>,
+}
+
+#[allow(dead_code)]
+impl ConvexHullTrick {
+    #[doc = " min query: comp = |l,r| l >= r"]
+    pub fn new<B>(comp: B) -> ConvexHullTrick
+    where
+        B: Fn(i64, i64) -> bool + 'static,
+    {
+        ConvexHullTrick {
+            lines: std::collections::VecDeque::new(),
+            comp: Box::new(comp),
+        }
+    }
+    #[doc = " check l2 is redundant"]
+    pub fn check(mut l1: Line, l2: Line, mut l3: Line) -> bool {
+        if l1 < l3 {
+            std::mem::swap(&mut l1, &mut l3);
+        }
+        (l3.1 - l2.1) * (l2.0 - l1.0) >= (l2.1 - l1.1) * (l3.0 - l2.0)
+    }
+    #[doc = " add y=ax+b, a1>=a2>=a3>=..."]
+    pub fn add(&mut self, line: Line) {
+        while self.lines.len() >= 2
+            && Self::check(
+                self.lines[self.lines.len() - 2],
+                self.lines[self.lines.len() - 1],
+                line,
+            )
+        {
+            self.lines.pop_back();
+        }
+        self.lines.push_back(line);
+    }
+    fn f(&self, i: usize, x: i64) -> i64 {
+        self.lines[i].0 * x + self.lines[i].1
+    }
+    #[doc = " return min value at x"]
+    pub fn get(&self, x: i64) -> i64 {
+        let mut ng = -1i64;
+        let mut ok = self.lines.len() as i64 - 1;
+        while (ok - ng).abs() > 1 {
+            let mid = (ok + ng) / 2;
+            if (self.comp)(self.f(mid as usize, x), self.f(mid as usize + 1, x)) {
+                ng = mid;
+            } else {
+                ok = mid;
+            }
+        }
+        self.f(ok as usize, x)
+    }
+    #[doc = " return min value at x, x1 <= x2 <= x3 <= ..."]
+    pub fn cget(&mut self, x: i64) -> i64 {
+        fn y(l: Line, x: i64) -> i64 {
+            l.0 * x + l.1
+        }
+        while self.lines.len() >= 2 && (self.comp)(y(self.lines[0], x), y(self.lines[1], x)) {
+            self.lines.pop_front();
+        }
+        y(self.lines[0], x)
+    }
+}
+
+}
+
+use mod_cht::*;
