@@ -1,0 +1,26 @@
+mod mod_modint2147483647 {
+
+use std::thread::LocalKey;
+use std::cell::RefCell;
+use ac_library::{StaticModInt, ButterflyCache, Modulus};
+
+#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
+pub enum Mod2147483647{}
+
+impl Modulus for Mod2147483647 {
+    const VALUE: u32 = 2_147_483_647;
+    const HINT_VALUE_IS_PRIME: bool = true;
+
+    fn butterfly_cache() -> &'static LocalKey<RefCell<Option<ButterflyCache<Self>>>> {
+        thread_local! {
+            static BUTTERFLY_CACHE: RefCell<Option<ButterflyCache<Mod2147483647>>> = RefCell::default();
+        }
+        &BUTTERFLY_CACHE
+    }
+}
+
+pub type ModInt2147483647 = StaticModInt<Mod2147483647>;
+
+}
+
+use mod_modint2147483647::ModInt2147483647 as Mint;
