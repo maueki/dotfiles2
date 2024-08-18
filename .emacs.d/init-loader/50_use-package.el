@@ -102,6 +102,8 @@
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-async t)
     (company-lsp-enable-recompletion nil))
+  (use-package lsp-projectile
+    :after (lsp-mode projectile))
   )
 
 ;; cclsは別途hookする
