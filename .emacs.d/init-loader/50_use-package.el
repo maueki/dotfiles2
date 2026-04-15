@@ -80,6 +80,7 @@
   :custom
   (lsp-rust-server 'rust-analyzer)
   (lsp-enable-on-type-formatting nil) ; Enterで勝手にフォーマットしない
+  (lsp-clients-clangd-executable "/usr/bin/clangd")
   :hook
   (rust-mode . lsp)
   :bind
@@ -87,6 +88,8 @@
 ;        ("C-c r"   . lsp-rename)
         ("C-c C-c C-d"   . lsp-describe-thing-at-point)
         )
+  :init
+  (setq lsp-auto-guess-root t)
   :config
   ;; LSP UI tools
   (use-package lsp-ui
@@ -102,8 +105,13 @@
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-async t)
     (company-lsp-enable-recompletion nil))
-  (use-package lsp-projectile
-    :after (lsp-mode projectile))
+  ;; リモート用 clangd クライアントを登録
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-tramp-connection "clangd") ;; リモート側の clangd を使う
+    :major-modes '(c-mode c++-mode objc-mode)       ;; C/C++ 等
+    :remote? t                                      ;; リモート用であることを指定
+    :server-id 'clangd-remote))
   )
 
 ;; cclsは別途hookする
