@@ -417,9 +417,17 @@
 ;                          (require 'lsp-pyright)
 ;                          (lsp))))  ; or lsp-deferred
 
-(use-package rjsx-mode
-  :mode (("\\.js\\'" . rjsx-mode))
-)
+;(use-package rjsx-mode
+;  :mode (("\\.js\\'" . rjsx-mode))
+;)
+
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js\\'" . js2-mode)
+  :config
+  (setq js-indent-level 2
+        js2-basic-offset 2
+        js2-strict-missing-semi-warning nil))
 
 ; https://qiita.com/nuy/items/ebcb25ad14f02ab72790
 (use-package typescript-mode
