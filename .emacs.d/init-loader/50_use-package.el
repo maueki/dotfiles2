@@ -77,15 +77,40 @@
   (lsp-enable-on-type-formatting nil) ; Enterで勝手にフォーマットしない
   (lsp-clients-clangd-executable "/usr/bin/clangd")
   (lsp-completion-provider :capf)
+  (lsp-use-plists t)
   :hook
   (rust-mode . lsp)
+  :init
+  ;; emacs-lsp-booster: LSPのJSONパースをRustプロキシで高速化
+  (defun lsp-booster--advice-json-parse (old-fn &rest args)
+    (or (when (equal (following-char) ?#)
+          (let ((bytecode (read (current-buffer))))
+            (when (byte-code-function-p bytecode)
+              (funcall bytecode))))
+        (apply old-fn args)))
+  (advice-add (if (progn (require 'json)
+                         (fboundp 'json-parse-buffer))
+                  'json-parse-buffer
+                'json-read)
+              :around #'lsp-booster--advice-json-parse)
+  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+    (let ((orig-result (funcall old-fn cmd test?)))
+      (if (and (not test?)
+               (not (file-remote-p default-directory))
+               lsp-use-plists
+               (not (functionp 'json-rpc-connection))
+               (executable-find "emacs-lsp-booster"))
+          (progn
+            (message "Using emacs-lsp-booster for %s!" orig-result)
+            (cons "emacs-lsp-booster" orig-result))
+        orig-result)))
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  (setq lsp-auto-guess-root t)
   :bind
   (:map lsp-mode-map
 ;        ("C-c r"   . lsp-rename)
         ("C-c C-c C-d"   . lsp-describe-thing-at-point)
         )
-  :init
-  (setq lsp-auto-guess-root t)
   :config
   ;; LSP UI tools
   (use-package lsp-ui
