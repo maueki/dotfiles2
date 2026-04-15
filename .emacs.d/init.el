@@ -1,5 +1,7 @@
 ; -*- coding: utf-8 -*-
 
+(defvar native-comp-deferred-compilation-deny-list nil)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
