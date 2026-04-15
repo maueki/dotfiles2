@@ -1,5 +1,6 @@
 (add-to-list 'auto-mode-alist '("\\.cpp$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cu$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.c$" . c-mode))
 
 (setq my-c-hook-list '(video-c-mode default-c-mode weston-c-mode))
