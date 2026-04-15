@@ -166,8 +166,11 @@
 
 (use-package py-autopep8
   :hook
-  (python-mode . py-autopep8-enable-on-save)
+  (python-mode . py-autopep8-mode)
 )
+
+(use-package sphinx-doc
+  :hook (python-mode . sphinx-doc-mode))
 
 (use-package yasnippet
   :config
