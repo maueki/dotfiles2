@@ -76,10 +76,21 @@
   (lsp-rust-server 'rust-analyzer)
   (lsp-enable-on-type-formatting nil) ; Enterで勝手にフォーマットしない
   (lsp-clients-clangd-executable "/usr/bin/clangd")
+  (lsp-clients-clangd-args '("--background-index"
+                              "--clang-tidy"
+                              "--completion-style=detailed"
+                              "--header-insertion=never"))
   (lsp-completion-provider :capf)
   (lsp-use-plists t)
+  ;; rust-analyzer
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-proc-macro-enable t)
+  (lsp-rust-analyzer-display-parameter-hints t)
+  (lsp-rust-analyzer-display-chained-hint t)
   :hook
-  (rust-mode . lsp)
+  (c-mode   . lsp)
+  (c++-mode . lsp)
+  (lsp-mode . lsp-inlay-hints-mode)
   :init
   ;; emacs-lsp-booster: LSPのJSONパースをRustプロキシで高速化
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
@@ -129,11 +140,13 @@
     :server-id 'clangd-remote))
   )
 
-;; cclsは別途hookする
-(use-package ccls
-  :custom (ccls-executable "/usr/bin/ccls")
-  :hook ((c-mode c++-mode objc-mode) .
-         (lambda () (require 'ccls) (lsp))))
+;; clangdに統一したためccls無効化
+;; (use-package ccls
+;;   :custom (ccls-executable "/usr/bin/ccls")
+;;   :hook ((c-mode c++-mode objc-mode) .
+;;          (lambda () (require 'ccls) (lsp))))
+
+(use-package cmake-mode)
 
 (use-package omnisharp
   :hook ((csharp-mode . omnisharp-mode)
@@ -385,25 +398,16 @@
          ([M-f7] . point-redo))
 )
 
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode)
-  )
-
-(use-package rust-mode
-  :bind (("C-c C-o" . lsp-rust-analyzer-open-external-docs))
-  )
-
-;(use-package rustic
-;  :after (cargo)
-;  :bind
-;  (:map rustic-mode-map
-;        ("C-c C-c C-r" . cargo-process-run)
-;        ("C-c C-c C-t" . cargo-process-test)
-;        )
-;  :config
-;  (setq lsp-rust-analyzer-server-command '("~/.local/bin/rust-analyzer"))
-;  (setq rustic-lsp-server 'rust-analyzer)
-;  )
+(use-package rustic
+  :custom
+  (rustic-lsp-client 'lsp-mode)
+  (rustic-format-on-save t)
+  (rustic-cargo-use-last-stored-arguments t)
+  :bind (:map rustic-mode-map
+              ("C-c C-o"     . lsp-rust-analyzer-open-external-docs)
+              ("C-c C-c C-r" . rustic-cargo-run)
+              ("C-c C-c C-t" . rustic-cargo-test)
+              ("C-c C-c C-c" . rustic-cargo-clippy)))
 
 (use-package web-mode
   :mode
