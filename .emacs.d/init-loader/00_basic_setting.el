@@ -8,18 +8,8 @@
        (list
         (expand-file-name "~/.emacs.d/site-lisp/")
         (expand-file-name "~/.emacs.d/local/")
-        "/usr/local/share/emacs/site-lisp/rtags"
        )))
 
-; http://qiita.com/8bit-jzjjy/items/7af68074494b5e9129e5
-; 外部プロセス文字化け防止
-(defmacro my-adapt-coding-system-with-current-buffer (target-function)
-  `(defadvice ,target-function
-     (around my-adapt-coding-system-with-current-buffer activate)
-     (let ((coding-system-for-read buffer-file-coding-system)
-       (coding-system-for-write buffer-file-coding-system)
-       (coding-system-require-warning t))
-       ad-do-it)))
 
 ; open cheat sheet
 (global-set-key [f12] '(lambda () (interactive) (browse-url "http://qiita.com/maueki/private/32b604b58578a354b287")))
@@ -121,9 +111,6 @@
 
 ;;; 変数の上にマウスカーソルを置くと値を表示
 (add-hook 'gdb-mode-hook '(lambda () (gud-tooltip-mode t)))
-
-;;; I/O バッファを表示
-(setq gdb-use-separate-io-buffer t)
 
 ;;; t にすると mini buffer に値が表示される
 (setq gud-tooltip-echo-area nil)
