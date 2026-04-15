@@ -52,15 +52,10 @@
   (global-company-mode)
   :custom
   (company-idle-delay 0)
-  (company-minimum-prefix-length .5)
+  (company-minimum-prefix-length 1)
   (company-selection-wrap-around t)
   :diminish company-mode)
 
-(use-package irony
-  :config
-  (use-package company-irony
-    :config
-    (push 'company-irony company-backends)))
 
 (use-package flymake
   :custom
@@ -81,6 +76,7 @@
   (lsp-rust-server 'rust-analyzer)
   (lsp-enable-on-type-formatting nil) ; Enterで勝手にフォーマットしない
   (lsp-clients-clangd-executable "/usr/bin/clangd")
+  (lsp-completion-provider :capf)
   :hook
   (rust-mode . lsp)
   :bind
@@ -99,12 +95,6 @@
     (lsp-ui-doc-max-height 20)
     :bind (("C-c z" . lsp-ui-doc-focus-frame))
     )
-  ;; Lsp completion
-  (use-package company-lsp
-    :custom
-    (company-lsp-cache-candidates t) ;; always using cache
-    (company-lsp-async t)
-    (company-lsp-enable-recompletion nil))
   ;; リモート用 clangd クライアントを登録
   (lsp-register-client
    (make-lsp-client
@@ -422,7 +412,6 @@
 ;)
 
 (use-package js2-mode
-  :ensure t
   :mode ("\\.js\\'" . js2-mode)
   :config
   (setq js-indent-level 2
