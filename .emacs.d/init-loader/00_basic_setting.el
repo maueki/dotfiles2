@@ -48,7 +48,7 @@
 (prefer-coding-system 'utf-8)
 
 ;; C-x bで存在しないバッファを指定して新規バッファを開いたときにはデフォルトでlisp-interaction-modeが起動する。
-(setq default-major-mode 'lisp-interaction-mode)
+(setq-default major-mode 'lisp-interaction-mode)
 
 ; 末尾の改行を自動で付けない
 (setq require-final-newline nil)
@@ -74,7 +74,7 @@
 
 ;; recentf
 ;; 最近のファイルの10000個を保存する
-(setq recentf-max-saved-itemds 10000)
+(setq recentf-max-saved-items 10000)
 (setq recentf-exclude '("/TAGS$" "/var/tmp/"))
 (require 'recentf-ext)
 
@@ -82,8 +82,7 @@
 (savehist-mode 1)
 
 ;;; ファイル内のカーソルを記憶する
-(setq-default save-place-mode t)
-(require 'saveplace)
+(save-place-mode 1)
 
 ;;; モードラインに時刻を表示
 ;(display-time)
