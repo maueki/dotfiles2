@@ -168,3 +168,23 @@
     (newline-and-indent)))
 
 (global-set-key (kbd "C-j") 'newline-without-break-of-line)
+
+
+(require 'ansi-color)
+
+;; enable color on cmake
+(defun my-colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region compilation-filter-start (point))))
+
+(add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)
+
+(setq ring-bell-function 'ignore)
+
+;; trampバッファではgit-gutterを切る
+(defun my-disable-git-gutter-on-tramp ()
+  (when (file-remote-p default-directory)
+    (when (bound-and-true-p git-gutter-mode)
+      (git-gutter-mode -1))))
+
+(add-hook 'find-file-hook #'my-disable-git-gutter-on-tramp)
