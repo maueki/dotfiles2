@@ -51,8 +51,8 @@
   :config
   (global-company-mode)
   :custom
-  (company-idle-delay 0)
-  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.3)
+  (company-minimum-prefix-length 2)
   (company-selection-wrap-around t)
   :diminish company-mode)
 
@@ -83,14 +83,13 @@
   (lsp-completion-provider :capf)
   (lsp-use-plists t)
   ;; rust-analyzer
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-cargo-watch-command "check")
   (lsp-rust-analyzer-proc-macro-enable t)
   (lsp-rust-analyzer-display-parameter-hints t)
   (lsp-rust-analyzer-display-chained-hint t)
   :hook
   (c-mode   . lsp)
   (c++-mode . lsp)
-  (lsp-mode . lsp-inlay-hints-mode)
   :init
   ;; emacs-lsp-booster: LSPのJSONパースをRustプロキシで高速化
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
@@ -121,13 +120,14 @@
   (:map lsp-mode-map
 ;        ("C-c r"   . lsp-rename)
         ("C-c C-c C-d"   . lsp-describe-thing-at-point)
+        ("C-c i"         . lsp-inlay-hints-mode)
         )
   :config
   ;; LSP UI tools
   (use-package lsp-ui
     :custom
     (lsp-ui-doc-position 'bottom)
-    (lsp-ui-doc-show-with-cursor 't)
+    (lsp-ui-doc-show-with-cursor nil)
     (lsp-ui-doc-max-height 20)
     :bind (("C-c z" . lsp-ui-doc-focus-frame))
     )
