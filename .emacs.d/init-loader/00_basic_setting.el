@@ -37,6 +37,18 @@
 (setq default-buffer-file-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+(defun my/setup-cjk-font (&optional _frame)
+  (dolist (range '((#x3000 . #x303f)
+                   (#x3040 . #x309f)
+                   (#x30a0 . #x30ff)
+                   (#x4e00 . #x9fff)
+                   (#xff00 . #xffef)))
+    (set-fontset-font t range "VL Gothic")))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions #'my/setup-cjk-font)
+  (add-hook 'after-init-hook #'my/setup-cjk-font))
+
 ;; C-x bで存在しないバッファを指定して新規バッファを開いたときにはデフォルトでlisp-interaction-modeが起動する。
 (setq-default major-mode 'lisp-interaction-mode)
 
